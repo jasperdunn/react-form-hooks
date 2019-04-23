@@ -1,0 +1,7 @@
+{
+  "prettier.singleQuote": true,
+  "prettier.eslintIntegration": true,
+  "prettier.semi": false,
+  "eslint.packageManager": "yarn",
+  "eslint.autoFixOnSave": true
+}

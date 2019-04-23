@@ -1,5 +1,5 @@
 {
-  "short_name": "@jasperdunn/react-form-hooks",
+  "short_name": "react-form-hooks",
   "name": "@jasperdunn/react-form-hooks",
   "start_url": "./index.html",
   "display": "standalone",

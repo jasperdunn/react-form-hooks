@@ -1,7 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import HooksForm from './HooksForm'
 
-import './index.css'
-import App from './App'
+function App() {
+  return <HooksForm />
+}
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const rootElement = document.getElementById('root')
+ReactDOM.render(<App />, rootElement)

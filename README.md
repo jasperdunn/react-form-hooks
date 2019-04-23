@@ -1,29 +1,138 @@
-# @jasperdunn/react-form-hooks
+# React Form Hooks
 
-> Flexible agnostic functions to help you build forms in React
+## Flexible agnostic functions to help you build forms in React
 
-[![NPM](https://img.shields.io/npm/v/@jasperdunn/react-form-hooks.svg)](https://www.npmjs.com/package/@jasperdunn/react-form-hooks) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+### Foreword
 
-## Install
+Hi fellow developers,
 
-```bash
-npm install --save @jasperdunn/react-form-hooks
+I'm going to be completely honest with you in that I have no idea where to begin with releasing a useable package for React :weary:.
+
+So if anyone would be so kind as to help me along this path, that'd be fantastic! :relaxed::muscle:
+
+## Installation
+
+`yarn add @jasperdunn/react-form-hooks`
+
+As I haven't released a package on NPM yet, please feel free to try out the files from inside `src/lib`.
+`import { useFormValues, useFormErrors } from 'path/to/lib'`
+
+## Why I started the project
+
+After discovering the freedom and power of React hooks,
+I wanted to create a flexible modular suite of functions that can help us create forms
+with whichever components we want, however we want!
+
+There are many excellent form packages out there, however I haven't yet found one that doesn't
+end up pulling you in a certain direction or way of working.
+
+I want to be able to use simple stateless components in my forms, utilising agnostic
+functions that don't care what your component structure looks like.
+
+## What it looks like
+
+> JSX components not included.
+
 ```
+import { useFormValues, useFormErrors } from "@jasperdunn/react-form-hooks"
 
-## Usage
+export default function MyForm() {
+  const { formValues, changeInputValue } = useFormValues({
+    email: '',
+    password: ''
+  })
 
-```jsx
-import React, { Component } from 'react'
+  const formValidations = {
+    email: [required, email],
+    password: [required, alphanumeric, value => minLength(value, 6)],
+  }
 
-import { useMyHook } from '@jasperdunn/react-form-hooks'
+  const {
+    formErrors,
+    validateForm,
+    validateInputValue
+  } = useFormErrors(formValidations)
 
-const Example = () => {
-  const example = useMyHook()
-  return (
-    <div>{example}</div>
+return (
+    <form
+      onSubmit={event => submit(event, validateForm, formValues, formErrors)}
+    >
+      <h1>Form with hooks</h1>
+      <InputText
+        id="email"
+        label="Email"
+        type="email"
+        value={formValues.email}
+        onChange={changeInputValue}
+        onBlur={validateInputValue}
+        errors={formErrors.email}
+      />
+      <InputText
+        id="password"
+        label="Password"
+        type="password"
+        value={formValues.password}
+        onChange={changeInputValue}
+        onBlur={validateInputValue}
+        errors={formErrors.password}
+      />
+      <button type="submit">Create some hooks!</button>
+    </form>
   )
 }
 ```
+
+## useFormValues
+
+```
+const {
+  formValues,
+  changeInputValue,
+  resetFormValues,
+  resetInputValue
+} = useFormValues(initialState)
+```
+
+Where
+
+- `formValues` object containing your input values
+- `changeInputValue(event)` function that updates the state when triggering an onChange, onBlur, onFocus etc.
+- `resetFormValues` ...what it says
+- `resetInputValue(inputName)` ...what it says
+
+## useFormErrors(formValidations)
+
+```
+const {
+  formErrors,
+  numberOfErrors,
+  validateForm,
+  validateInputValue,
+  clearFormErrors,
+  clearInputErrors
+} = useFormErrors(formValidations)
+```
+
+Where
+
+- `formErrors` object where each key is mapped to a form input and the value is the input's errors as an array of strings.
+- `numberOfErrors` ...what it says
+- `validateForm` function that loops through the form and validates all of the form inputs and setting the formErrors state.
+- `validateInputValue(event)` function that validates a form input and sets the formErrors state.
+- `clearFormErrors` ...what it says
+- `clearInputErrors(inputName)` ...what it says
+
+### formValidations
+
+```
+const formValidations = {
+  formInputName: [array, of, validation, functions]
+}
+```
+
+- `formValidations` object where each key is mapped to a form input and the value is an array of validation functions.
+
+Each validation function must return a string as the error message or null/undefined.
 
 ## License
 
