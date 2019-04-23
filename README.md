@@ -2,20 +2,9 @@
 
 ## Flexible agnostic functions to help you build forms in React
 
-### Foreword
-
-Hi fellow developers,
-
-I'm going to be completely honest with you in that I have no idea where to begin with releasing a useable package for React :weary:.
-
-So if anyone would be so kind as to help me along this path, that'd be fantastic! :relaxed::muscle:
-
 ## Installation
 
 `yarn add @jasperdunn/react-form-hooks`
-
-As I haven't released a package on NPM yet, please feel free to try out the files from inside `src/lib`.
-`import { useFormValues, useFormErrors } from 'path/to/lib'`
 
 ## Why I started the project
 
@@ -23,7 +12,7 @@ After discovering the freedom and power of React hooks,
 I wanted to create a flexible modular suite of functions that can help us create forms
 with whichever components we want, however we want!
 
-There are many excellent form packages out there, however I haven't yet found one that doesn't
+There are many excellent react form packages out there, however I haven't yet found one that doesn't
 end up pulling you in a certain direction or way of working.
 
 I want to be able to use simple stateless components in my forms, utilising agnostic
