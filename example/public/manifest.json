@@ -1,0 +1,8 @@
+{
+  "short_name": "@jasperdunn/react-form-hooks",
+  "name": "@jasperdunn/react-form-hooks",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
