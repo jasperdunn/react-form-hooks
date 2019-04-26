@@ -2,8 +2,6 @@
 
 ## Flexible agnostic functions to help you build forms in React
 
-## Installation
-
 `yarn add @jasperdunn/react-form-hooks`
 
 ## Why I started the project
@@ -26,7 +24,7 @@ functions that don't care what your component structure looks like.
 import { useFormValues, useFormErrors } from "@jasperdunn/react-form-hooks"
 
 export default function MyForm() {
-  const { formValues, changeInputValue } = useFormValues({
+  const { formValues, updateInputValue } = useFormValues({
     email: '',
     password: ''
   })
@@ -52,7 +50,7 @@ return (
         label="Email"
         type="email"
         value={formValues.email}
-        onChange={changeInputValue}
+        onChange={updateInputValue}
         onBlur={validateInputValue}
         errors={formErrors.email}
       />
@@ -61,7 +59,7 @@ return (
         label="Password"
         type="password"
         value={formValues.password}
-        onChange={changeInputValue}
+        onChange={updateInputValue}
         onBlur={validateInputValue}
         errors={formErrors.password}
       />
@@ -76,18 +74,20 @@ return (
 ```
 const {
   formValues,
-  changeInputValue,
   resetFormValues,
-  resetInputValue
+  resetInputValue,
+  updateInputValue,
+  setInputValue
 } = useFormValues(initialState)
 ```
 
 Where
 
-- `formValues` object containing your input values
-- `changeInputValue(event)` function that updates the state when triggering an onChange, onBlur, onFocus etc.
-- `resetFormValues` ...what it says
-- `resetInputValue(inputName)` ...what it says
+- `formValues` - Object where each key is the input id and the value is the current input value.
+- `resetFormValues` - Function that resets the form values to the initial state.
+- `resetInputValue(inputName)` - Function that resets the input value to it's initial state.
+- `updateInputValue(event)` - Function called via an event handler that updates an input value.
+- `setInputValue(inputName)` - Function that updates an input value.
 
 ## useFormErrors(formValidations)
 
@@ -98,18 +98,22 @@ const {
   validateForm,
   validateInputValue,
   clearFormErrors,
-  clearInputErrors
+  clearInputErrors,
+  setFormErrors,
+  setInputErrors
 } = useFormErrors(formValidations)
 ```
 
 Where
 
-- `formErrors` object where each key is mapped to a form input and the value is the input's errors as an array of strings.
-- `numberOfErrors` ...what it says
-- `validateForm` function that loops through the form and validates all of the form inputs and setting the formErrors state.
-- `validateInputValue(event)` function that validates a form input and sets the formErrors state.
-- `clearFormErrors` ...what it says
-- `clearInputErrors(inputName)` ...what it says
+- `formErrors` - Object where each key is the input id and the value is an array of error messages.
+- `numberOfErrors` - Number of inputs that have errors.
+- `validateForm` - Function that runs validation on the whole form.
+- `validateInputValue(event)` - Function that runs validation on a single input.
+- `clearFormErrors` - Function that clears all the form errors.
+- `clearInputErrors(inputName)` - Function that clears the inputs errors.`
+- `setFormErrors(formErrors)` - Function that sets the form errors.
+- `setInputErrors(inputName)` - Function that sets an inputs errors.
 
 ### formValidations
 
@@ -119,7 +123,8 @@ const formValidations = {
 }
 ```
 
-- `formValidations` object where each key is mapped to a form input and the value is an array of validation functions.
+- `formValidations` Where each key is the form input id,
+  and the value is an array of validation functions for that form input.
 
 Each validation function must return a string as the error message or null/undefined.
 
