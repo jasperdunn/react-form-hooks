@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/jasperdunn/react-form-hooks/precache-manifest.4dbde50cf71c75943f472f00d664cf22.js"
+  "/react-form-hooks/precache-manifest.9394301d61aa253e54195f2e4f878d68.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/jasperdunn/react-form-hooks/index.html", {
+workbox.routing.registerNavigationRoute("/react-form-hooks/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
