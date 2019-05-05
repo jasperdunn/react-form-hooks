@@ -4,6 +4,8 @@
 
 `yarn add @jasperdunn/react-form-hooks`
 
+try a simple form [here](https://jasperdunn.github.io/react-form-hooks/)
+
 ## Why I started the project
 
 After discovering the freedom and power of React hooks,
