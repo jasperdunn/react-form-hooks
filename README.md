@@ -5,6 +5,7 @@
 `yarn add @jasperdunn/react-form-hooks`
 
 try a simple form [here](https://jasperdunn.github.io/react-form-hooks/)
+play in a sandbox [here](https://codesandbox.io/s/937p7o6plp)
 
 ## Why I started the project
 
