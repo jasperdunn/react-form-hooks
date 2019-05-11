@@ -87,7 +87,7 @@ const {
 
 Where
 
-- `formValues` - Object where each key is the input id and the value is the current input value.
+- `formValues` - Object where each key is the input name and each value is the input value.
 - `resetFormValues` - Function that resets the form values to the initial state.
 - `resetInputValue(inputName)` - Function that resets the input value to it's initial state.
 - `updateInputValue(event)` - Function called via an event handler that updates an input value.
@@ -103,21 +103,19 @@ const {
   validateInputValue,
   clearFormErrors,
   clearInputErrors,
-  setFormErrors,
   setInputErrors
 } = useFormErrors(formValidations)
 ```
 
 Where
 
-- `formErrors` - Object where each key is the input id and the value is an array of error messages.
+- `formErrors` - Object where each key is the form input name, and each value is an array of error messages (string/jsx).
 - `numberOfErrors` - Number of inputs that have errors.
-- `validateForm` - Function that runs validation on the whole form.
-- `validateInputValue(event)` - Function that runs validation on a single input.
-- `clearFormErrors` - Function that clears all the form errors.
-- `clearInputErrors(inputName)` - Function that clears the inputs errors.`
-- `setFormErrors(formErrors)` - Function that sets the form errors.
-- `setInputErrors(inputName)` - Function that sets an inputs errors.
+- `validateForm` - Function that runs validation on the whole form, returns formIsValid (boolean).
+- `validateInputValue(event)` - Function that runs validation on an input.
+- `clearFormErrors` - Function that clears the form errors.
+- `clearInputErrors(inputName)` - Function that clears the errors for an input.`
+- `setInputErrors(inputName)` - Function that sets the errors for an input.
 
 ### formValidations
 
@@ -127,10 +125,10 @@ const formValidations = {
 }
 ```
 
-- `formValidations` Where each key is the form input id,
+- `formValidations` Where each key is the form input name,
   and the value is an array of validation functions for that form input.
 
-Each validation function must return a string as the error message or null/undefined.
+Each validation function must return a string as the error message or have no return value (undefined).
 
 ## License
 
