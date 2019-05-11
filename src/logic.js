@@ -9,7 +9,7 @@ export function updateInputValue(event, setFormValues) {
 export function validateForm(formValues, setFormErrors, formValidations) {
   const inputsToValidate = Object.keys(formValidations)
   if (inputsToValidate.length === 0) {
-    return
+    return true
   }
 
   const updatedFormErrors = {}
