@@ -130,7 +130,7 @@ const formValidations = {
 - `formValidations` Where each key is the form input id,
   and the value is an array of validation functions for that form input.
 
-Each validation function must return a string as the error message or null/undefined.
+Each validation function must return a string as the error message or have no return value (undefined).
 
 ## License
 

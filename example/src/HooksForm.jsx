@@ -9,7 +9,6 @@ import {
 } from './validation'
 import InputText from './InputText'
 import InputRadioGroup from './InputRadioGroup'
-import { submit } from './HooksForm.logic'
 
 export default function HooksForm() {
   const {
@@ -53,10 +52,22 @@ export default function HooksForm() {
     clearFormErrors()
   }
 
+  function submitForm(event) {
+    event.preventDefault()
+
+    const formIsValid = validateForm(formValues)
+    if (formIsValid) {
+      signIn()
+    }
+  }
+
+  function signIn() {
+    //eslint-disable-next-line
+    alert('Validation successful!')
+  }
+
   return (
-    <form
-      onSubmit={event => submit(event, validateForm, formValues, formErrors)}
-    >
+    <form onSubmit={submitForm}>
       <h1>Form with hooks</h1>
       {numberOfErrors > 0 && (
         <small>
