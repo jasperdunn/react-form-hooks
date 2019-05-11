@@ -103,7 +103,6 @@ const {
   validateInputValue,
   clearFormErrors,
   clearInputErrors,
-  setFormErrors,
   setInputErrors
 } = useFormErrors(formValidations)
 ```
@@ -116,7 +115,6 @@ Where
 - `validateInputValue(event)` - Function that runs validation on a single input.
 - `clearFormErrors` - Function that clears all the form errors.
 - `clearInputErrors(inputName)` - Function that clears the inputs errors.`
-- `setFormErrors(formErrors)` - Function that sets the form errors.
 - `setInputErrors(inputName)` - Function that sets an inputs errors.
 
 ### formValidations

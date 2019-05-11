@@ -7,7 +7,7 @@
 ## Deprecated
 
 - `setFormErrors(formErrors)` has been removed, input errors should be set via `setInputErrors` or via form and input validate functions.
-- `formValidations` used to check for nulls, now enforcing that validation functions must return a string or have no return value (undefined).
+- `formValidations` used to check null values, now validation functions must return a string or have no return value (undefined).
 
 ## Bug Fixes
 
