@@ -50,7 +50,7 @@ export function useFormValues(initialFormValues) {
  * - validateInputValue - Function that runs validation on an input.
  * - clearFormErrors - Function that clears the forms errors.
  * - clearInputErrors - Function that clears the errors for an input.
- * - setInputErrors - Function that sets errors for an input.
+ * - setInputErrors - Function that sets the errors for an input.
  */
 export function useFormErrors(formValidations = {}) {
   const [formErrors, setFormErrors] = useState({})
