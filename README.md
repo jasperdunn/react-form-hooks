@@ -93,7 +93,7 @@ Where
 - `updateInputValue(event)` - Function called via an event handler that updates an input value.
 - `setInputValue(inputName)` - Function that updates an input value.
 
-## useFormErrors(formValidations)
+## useFormErrors
 
 ```
 const {
