@@ -81,7 +81,8 @@ const {
   resetFormValues,
   resetInputValue,
   updateInputValue,
-  setInputValue
+  setInputValue,
+  setFormValues
 } = useFormValues(initialState)
 ```
 
@@ -92,6 +93,7 @@ Where
 - `resetInputValue(inputName)` - Function that resets the input value to it's initial state.
 - `updateInputValue(event)` - Function called via an event handler that updates an input value.
 - `setInputValue(inputName)` - Function that updates an input value.
+- `setFormValues(formValues)` - Function that updates the form values.
 
 ## useFormErrors(formValidations)
 
