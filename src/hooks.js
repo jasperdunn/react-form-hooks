@@ -17,6 +17,7 @@ import {
  * - resetInputValue - Function that resets the input value to it's initial state.
  * - updateInputValue - Function called via an event handler that updates an input value.
  * - setInputValue - Function that updates an input value.
+ * - setFormValues - Function that updates the form values.
  */
 export function useFormValues(initialFormValues) {
   const [formValues, setFormValues] = useState(initialFormValues)
@@ -34,7 +35,8 @@ export function useFormValues(initialFormValues) {
      * @param {String} name
      */
     setInputValue: (name, value) =>
-      setFormValues(prevFormValues => ({ ...prevFormValues, [name]: value }))
+      setFormValues(prevFormValues => ({ ...prevFormValues, [name]: value })),
+    setFormValues
   }
 }
 
