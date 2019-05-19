@@ -67,7 +67,7 @@ export default function HooksForm() {
   }
 
   return (
-    <form onSubmit={submitForm}>
+    <form onSubmit={submitForm} noValidate>
       <h1>Form with hooks</h1>
       {numberOfErrors > 0 && (
         <small>
