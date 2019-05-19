@@ -40,7 +40,7 @@ export default function InputRadioGroup({
           )
         })}
       </div>
-      {errors && (
+      {errors && errors.length > 0 && (
         <ul
           style={{
             color: 'red',

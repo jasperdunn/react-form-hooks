@@ -61,6 +61,17 @@ export function clearInputErrors(name, setFormErrors) {
   }))
 }
 
+export function getInitialFormErrors(formValidations) {
+  const formInputNames = Object.keys(formValidations)
+  const initialFormErrors = {}
+
+  for (let a = 0; a < formInputNames.length; a++) {
+    initialFormErrors[formInputNames[a]] = []
+  }
+
+  return initialFormErrors
+}
+
 function getInputValidationErrors(value, inputValidations) {
   const inputValidationErrors = inputValidations
     .map(validate => validate(value))

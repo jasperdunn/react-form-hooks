@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   updateInputValue,
   resetInputValue,
   clearInputErrors,
   validateForm,
-  validateInputValue
+  validateInputValue,
+  getInitialFormErrors
 } from './logic'
 
 /**
@@ -55,7 +56,11 @@ export function useFormValues(initialFormValues) {
  * - setInputErrors - Function that sets the errors for an input.
  */
 export function useFormErrors(formValidations = {}) {
-  const [formErrors, setFormErrors] = useState({})
+  const initialFormErrors = useMemo(
+    () => getInitialFormErrors(formValidations),
+    []
+  )
+  const [formErrors, setFormErrors] = useState(initialFormErrors)
 
   return {
     formErrors,
@@ -65,7 +70,7 @@ export function useFormErrors(formValidations = {}) {
       validateForm(formValues, setFormErrors, formValidations),
     validateInputValue: event =>
       validateInputValue(event, setFormErrors, formValidations),
-    clearFormErrors: () => setFormErrors({}),
+    clearFormErrors: () => setFormErrors(initialFormErrors),
     /**
      * @param {String} name
      */
