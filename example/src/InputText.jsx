@@ -33,7 +33,7 @@ export default function InputText({
         onBlur={onBlur}
       />
       <br />
-      {errors && (
+      {errors && errors.length > 0 && (
         <ul
           style={{
             color: 'red',
