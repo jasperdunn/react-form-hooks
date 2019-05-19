@@ -1,3 +1,11 @@
+# 3.1.0 (2019-05-19)
+
+## Features
+
+- `setFormValues` is now exposed, this function is the React.useState 'set' function for formValues, useful when setting multiple values at once or updating the form values via props.
+
+---
+
 # 3.0.1 (2019-05-11)
 
 ## Features
