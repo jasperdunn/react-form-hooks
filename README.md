@@ -2,6 +2,11 @@
 
 ## Flexible agnostic functions to help you build forms in React
 
+[![npm](https://img.shields.io/npm/v/@jasperdunn/react-form-hooks.svg?color=%232c8ebb&style=flat-square)](https://www.npmjs.com/package/@jasperdunn/react-form-hooks)
+![npm bundle size](https://img.shields.io/bundlephobia/min/@jasperdunn/react-form-hooks.svg?color=rgb%28113%2C%20138%2C%20240%29&label=minified&style=flat-square)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/@jasperdunn/react-form-hooks.svg?color=rgb%28113%2C%20138%2C%20240%29&label=gzipped&style=flat-square)
+[![MIT license](https://img.shields.io/npm/l/@jasperdunn/react-form-hooks.svg?color=%233DA639&style=flat-square)](http://opensource.org/licenses/MIT)
+
 `yarn add @jasperdunn/react-form-hooks`
 
 Try out a simple [form](https://jasperdunn.github.io/react-form-hooks/)
