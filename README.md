@@ -143,4 +143,4 @@ MIT © [jasperdunn](https://github.com/jasperdunn)
 
 ---
 
-This hook is created using [create-react-hook](https://github.com/hermanya/create-react-hook).
+This package is created using [create-react-hook](https://github.com/hermanya/create-react-hook).
