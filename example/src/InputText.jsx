@@ -7,7 +7,7 @@ InputText.propTypes = {
   type: string.isRequired,
   value: string,
   onChange: func.isRequired,
-  onBlur: func.isRequired,
+  onBlur: func,
   errors: arrayOf(string)
 }
 
@@ -26,6 +26,7 @@ export default function InputText({
       <br />
       <input
         id={id}
+        data-testid={id}
         name={id}
         type={type}
         value={value}
@@ -35,6 +36,7 @@ export default function InputText({
       <br />
       {errors && errors.length > 0 && (
         <ul
+          data-testid={`${id}-errors`}
           style={{
             color: 'red',
             margin: '8px 0',
