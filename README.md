@@ -2,11 +2,10 @@
 
 ## Flexible agnostic functions to help you build forms in React
 
-[![npm](https://img.shields.io/npm/v/@jasperdunn/react-form-hooks.svg?color=%232c8ebb&style=flat-square)](https://www.npmjs.com/package/@jasperdunn/react-form-hooks)
-![npm bundle size](https://img.shields.io/bundlephobia/min/@jasperdunn/react-form-hooks.svg?color=rgb%28113%2C%20138%2C%20240%29&label=minified&style=flat-square)
+[![npm version](https://img.shields.io/npm/v/@jasperdunn/react-form-hooks.svg?color=%232c8ebb&style=flat-square)](https://www.npmjs.com/package/@jasperdunn/react-form-hooks)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@jasperdunn/react-form-hooks.svg?color=rgb%28113%2C%20138%2C%20240%29&label=gzipped&style=flat-square)
 [![MIT license](https://img.shields.io/npm/l/@jasperdunn/react-form-hooks.svg?color=%233DA639&style=flat-square)](http://opensource.org/licenses/MIT)
-[![Coverage Status](https://coveralls.io/repos/github/jasperdunn/react-form-hooks/badge.svg?branch=master)](https://coveralls.io/github/jasperdunn/react-form-hooks?branch=master)
+[![coverage status](https://img.shields.io/coveralls/github/jasperdunn/react-form-hooks.svg?style=flat-square)](https://coveralls.io/github/jasperdunn/react-form-hooks?branch=master)
 
 `yarn add @jasperdunn/react-form-hooks`
 
