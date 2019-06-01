@@ -1,3 +1,9 @@
+# 4.1.0 (2019-06-01)
+
+## Features
+
+- Created a test suite and setup automated code coverage reporting and testing.
+
 # 4.0.0 (2019-05-19)
 
 ## Breaking changes
