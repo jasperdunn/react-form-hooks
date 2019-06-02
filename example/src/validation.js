@@ -5,8 +5,16 @@ export function required(value) {
 }
 
 export function email(value) {
-  if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) === false) {
-    return 'Please enter a valid email address.'
+  const errorMessage = 'Please enter a valid email address.'
+  const lengthIsValid = value.length >= 1 && value.length <= 254
+
+  if (!lengthIsValid) {
+    return errorMessage
+  }
+
+  const looksLikeAnEmail = /^.+@.+\..+$/.test(value)
+  if (!looksLikeAnEmail) {
+    return errorMessage
   }
 }
 
