@@ -19,11 +19,11 @@ After discovering the freedom and power of React hooks,
 I wanted to create a flexible modular suite of functions that can help us create forms
 with whichever components we want, however we want!
 
-There are many excellent react form packages out there, however I haven't yet found one that doesn't
-end up pulling you in a certain direction or way of working.
+There are many excellent react form packages out there, however I hadn't yet found one that didn't
+end up pulling me in a certain direction or way of working. 
 
-I want to be able to use simple stateless components in my forms, utilising agnostic
-functions that don't care what your component structure looks like.
+I wanted to be able to use simple, stateless, controlled components in my forms, utilising agnostic
+functions that didn't care what my component structure looked like.
 
 ## What it looks like
 
