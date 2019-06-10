@@ -16,14 +16,12 @@ Play in a [sandbox](https://codesandbox.io/s/937p7o6plp)
 ## Why I started the project
 
 After discovering the freedom and power of React hooks,
-I wanted to create a flexible modular suite of functions that can help us create forms
+I wanted to create a flexible suite of functions that can help create forms
 with whichever components we want, however we want!
 
-There are many excellent react form packages out there, however I hadn't yet found one that didn't
-end up pulling me in a certain direction or way of working. 
+There are many excellent react form packages out there, however I hadn't yet found one that didn't end up pulling me in a certain direction or way of working.
 
-I wanted to be able to use simple, stateless, controlled components in my forms, utilising agnostic
-functions that didn't care what my component structure looked like.
+I wanted to be able to use simple, stateless, controlled components in my forms, utilising agnostic functions that didn't care which components I used or how they were structured.
 
 ## What it looks like
 
