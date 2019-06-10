@@ -5,11 +5,14 @@
   "description": "Flexible agnostic functions to help you build forms in React",
   "author": "jasperdunn",
   "keywords": [
-    "form",
-    "hooks",
     "react",
-    "react-form-hooks",
-    "ui"
+    "hooks",
+    "react-hooks",
+    "form",
+    "form-validation",
+    "validation",
+    "agnostic",
+    "controlled-components"
   ],
   "license": "MIT",
   "repository": "github:jasperdunn/react-form-hooks",
