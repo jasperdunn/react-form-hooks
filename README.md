@@ -6,8 +6,7 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@jasperdunn/react-form-hooks.svg?color=rgb%28113%2C%20138%2C%20240%29&label=gzipped&style=flat-square)
 [![MIT license](https://img.shields.io/npm/l/@jasperdunn/react-form-hooks.svg?color=%233DA639&style=flat-square)](http://opensource.org/licenses/MIT)
 [![coverage status](https://img.shields.io/coveralls/github/jasperdunn/react-form-hooks.svg?style=flat-square)](https://coveralls.io/github/jasperdunn/react-form-hooks?branch=master)
-[![travis.org](https://img.shields.io/travis/jasperdunn/react-form-hooks.svg?style=flat-square)]
-(https://travis-ci.org/jasperdunn/react-form-hooks)
+[![travis](https://img.shields.io/travis/jasperdunn/react-form-hooks.svg?style=flat-square)](https://travis-ci.org/jasperdunn/react-form-hooks)
 
 `yarn add @jasperdunn/react-form-hooks`
 
