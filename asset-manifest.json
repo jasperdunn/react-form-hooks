@@ -1,11 +1,13 @@
 {
-  "main.js": "/react-form-hooks/static/js/main.c64d5d19.chunk.js",
-  "main.js.map": "/react-form-hooks/static/js/main.c64d5d19.chunk.js.map",
-  "runtime~main.js": "/react-form-hooks/static/js/runtime~main.6933531f.js",
-  "runtime~main.js.map": "/react-form-hooks/static/js/runtime~main.6933531f.js.map",
-  "static/js/2.cc16dd21.chunk.js": "/react-form-hooks/static/js/2.cc16dd21.chunk.js",
-  "static/js/2.cc16dd21.chunk.js.map": "/react-form-hooks/static/js/2.cc16dd21.chunk.js.map",
-  "index.html": "/react-form-hooks/index.html",
-  "precache-manifest.d63cc9c7f955d7b3ca3143882297a1d7.js": "/react-form-hooks/precache-manifest.d63cc9c7f955d7b3ca3143882297a1d7.js",
-  "service-worker.js": "/react-form-hooks/service-worker.js"
+  "files": {
+    "main.js": "/react-form-hooks/static/js/main.972f57ab.chunk.js",
+    "main.js.map": "/react-form-hooks/static/js/main.972f57ab.chunk.js.map",
+    "runtime~main.js": "/react-form-hooks/static/js/runtime~main.6933531f.js",
+    "runtime~main.js.map": "/react-form-hooks/static/js/runtime~main.6933531f.js.map",
+    "static/js/2.cc16dd21.chunk.js": "/react-form-hooks/static/js/2.cc16dd21.chunk.js",
+    "static/js/2.cc16dd21.chunk.js.map": "/react-form-hooks/static/js/2.cc16dd21.chunk.js.map",
+    "index.html": "/react-form-hooks/index.html",
+    "precache-manifest.d0bffef81e9437782f0667ac5bb19083.js": "/react-form-hooks/precache-manifest.d0bffef81e9437782f0667ac5bb19083.js",
+    "service-worker.js": "/react-form-hooks/service-worker.js"
+  }
 }
