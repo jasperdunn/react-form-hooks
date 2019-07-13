@@ -5,7 +5,7 @@ import {
   getByTestId,
   fireEvent,
   queryByTestId
-} from 'react-testing-library'
+} from '@testing-library/react'
 import { useFormValues } from './index'
 import InputText from '../example/src/InputText'
 import { required } from '../example/src/validation'
