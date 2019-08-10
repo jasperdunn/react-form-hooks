@@ -14,6 +14,8 @@ Try out a simple [form](https://jasperdunn.github.io/react-form-hooks/)
 
 Play in a [sandbox](https://codesandbox.io/s/937p7o6plp)
 
+See the [changelog](https://github.com/jasperdunn/react-form-hooks/blob/master/CHANGELOG.md)
+
 ## Why I started the project
 
 After discovering the freedom and power of React hooks,
