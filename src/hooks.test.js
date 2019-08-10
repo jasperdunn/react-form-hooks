@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { object, string } from 'prop-types'
+import { object, string, oneOf } from 'prop-types'
 import {
   render,
   getByTestId,
@@ -15,14 +15,16 @@ TestInput.propTypes = {
   initialValue: string.isRequired,
   newValue: string,
   formValidations: object,
-  customErrorMessage: string
+  customErrorMessage: string,
+  onBlurMethod: oneOf(['validate', 'clear'])
 }
 
 function TestInput({
   initialValue,
   newValue,
   formValidations,
-  customErrorMessage
+  customErrorMessage,
+  onBlurMethod = 'validate'
 }) {
   const initialFormValues = { name: initialValue }
   const {
@@ -45,7 +47,9 @@ function TestInput({
         type="text"
         value={formValues.name}
         onChange={updateInputValue}
-        onBlur={validateInputValue}
+        onBlur={
+          onBlurMethod === 'validate' ? validateInputValue : clearInputErrors
+        }
         errors={formErrors.name}
       />
       <button
@@ -67,6 +71,11 @@ function TestInput({
         data-testid="setInputErrorsButton"
         type="button"
         onClick={() => setInputErrors('name', [customErrorMessage])}
+      />
+      <button
+        data-testid="validateInputValueButton"
+        type="button"
+        onClick={() => validateInputValue('name', formValues.name)}
       />
     </>
   )
@@ -106,7 +115,7 @@ describe('useFormValues - input', () => {
     expect(inputTextName.value).toBe(initialValue)
   })
 
-  test('setInputValue', () => {
+  test('setInputValue(string)', () => {
     const newValue = 'Bob Brown'
     const { container } = render(
       <TestInput initialValue="John Smith" newValue={newValue} />
@@ -119,6 +128,16 @@ describe('useFormValues - input', () => {
 
     expect(inputTextName.value).toBe(newValue)
   })
+
+  test('setInputValue(event)', () => {
+    const { container } = render(<TestInput initialValue="" />)
+
+    const inputTextName = getByTestId(container, 'name')
+    const newName = 'John Smith'
+    fireEvent.change(inputTextName, { target: { value: newName } })
+
+    expect(inputTextName.value).toBe(newName)
+  })
 })
 
 describe('useFormErrors - input', () => {
@@ -130,7 +149,25 @@ describe('useFormErrors - input', () => {
     expect(errors).toBeNull()
   })
 
-  test('validateInputValue', () => {
+  test('validateInputValue(string)', () => {
+    const { container } = render(
+      <TestInput initialValue="" formValidations={{ name: [required] }} />
+    )
+
+    const validateInputValueButton = getByTestId(
+      container,
+      'validateInputValueButton'
+    )
+    fireEvent.click(validateInputValueButton)
+
+    const errors = getByTestId(container, 'name-errors')
+    const errorMessage = errors.childNodes[0].textContent
+
+    expect(errors.childNodes.length).toEqual(1)
+    expect(errorMessage).toMatch('required')
+  })
+
+  test('validateInputValue(event)', () => {
     const { container } = render(
       <TestInput initialValue="" formValidations={{ name: [required] }} />
     )
@@ -145,7 +182,7 @@ describe('useFormErrors - input', () => {
     expect(errorMessage).toMatch('required')
   })
 
-  test('clearInputErrors', () => {
+  test('clearInputErrors(string)', () => {
     const { container } = render(
       <TestInput initialValue="" formValidations={{ name: [required] }} />
     )
@@ -158,6 +195,26 @@ describe('useFormErrors - input', () => {
       'clearInputErrorsButton'
     )
     fireEvent.click(clearInputErrorsButton)
+
+    const errors = queryByTestId(container, 'name-errors')
+
+    expect(errors).toBeNull()
+  })
+
+  test('clearInputErrors(event)', () => {
+    const { container } = render(
+      <TestInput
+        initialValue=""
+        onBlurMethod="clear"
+        formValidations={{ name: [required] }}
+      />
+    )
+
+    const setInputErrorsButton = getByTestId(container, 'setInputErrorsButton')
+    fireEvent.click(setInputErrorsButton)
+
+    const inputTextName = getByTestId(container, 'name')
+    fireEvent.blur(inputTextName)
 
     const errors = queryByTestId(container, 'name-errors')
 

@@ -1,3 +1,19 @@
+# 4.2.0 (2019-08-10)
+
+## Features
+
+- `setInputValue` has been extended to accept a `React.SyntheticEvent` and can be used in place of `updateInputValue`.
+
+- `validateInputValue` has been extended to accept `input: String|React.SyntheticEvent` and optional `value` so an input can now be validated without using an event.
+
+- `clearInputErrors` has been extended to accept a `React.SyntheticEvent`.
+
+## Deprecated
+
+- `updateInputValue` has been made redundant. Please use `setInputValue` instead, which has been extended to accept a `React.SyntheticEvent`.
+
+  - note: this is not a breaking change, `updateInputValue` will be removed in 5.0.0.
+
 # 4.1.0 (2019-06-01)
 
 ## Features

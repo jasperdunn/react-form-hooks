@@ -13,6 +13,7 @@ import InputRadioGroup from './InputRadioGroup'
 export default function HooksForm() {
   const {
     formValues,
+    setInputValue,
     updateInputValue,
     resetFormValues,
     resetInputValue
@@ -77,20 +78,20 @@ export default function HooksForm() {
       )}
       <InputText
         id="email"
-        label="Email"
+        label="Email - (validate on blur)"
         type="email"
         value={formValues.email}
-        onChange={updateInputValue}
+        onChange={setInputValue}
         onBlur={validateInputValue}
         errors={formErrors.email}
       />
       <InputText
         id="password"
-        label="Password"
+        label="Password - (clear errors on blur)"
         type="password"
         value={formValues.password}
         onChange={updateInputValue}
-        onBlur={validateInputValue}
+        onBlur={clearInputErrors}
         errors={formErrors.password}
       />
       <InputText
@@ -99,7 +100,6 @@ export default function HooksForm() {
         type="password"
         value={formValues.confirmPassword}
         onChange={updateInputValue}
-        onBlur={validateInputValue}
         errors={formErrors.confirmPassword}
       />
       <InputRadioGroup

@@ -1,3 +1,16 @@
+export function setInputValue(input, value, setFormValues) {
+  let name = input
+  let newValue = value
+
+  if (input.nativeEvent && input.nativeEvent instanceof Event) {
+    name = input.target.name
+    const target = input.target
+    newValue = target.type === 'checkbox' ? target.checked : target.value
+  }
+
+  setFormValues(prevFormValues => ({ ...prevFormValues, [name]: newValue }))
+}
+
 export function updateInputValue(event, setFormValues) {
   const target = event.target
   const name = target.name
@@ -30,14 +43,23 @@ export function validateForm(formValues, setFormErrors, formValidations) {
   )
 }
 
-export function validateInputValue(event, setFormErrors, formValidations) {
-  const inputName = event.target.name
+export function validateInputValue(
+  input,
+  value,
+  setFormErrors,
+  formValidations
+) {
+  let inputName = input
+  let inputValue = value
+
+  if (input.nativeEvent && input.nativeEvent instanceof Event) {
+    inputName = input.target.name
+    inputValue = input.target.value
+  }
 
   if (!formValidations.hasOwnProperty(inputName)) {
     return
   }
-
-  const inputValue = event.target.value
 
   setFormErrors(prevFormErrors => ({
     ...prevFormErrors,
@@ -54,7 +76,9 @@ export function resetInputValue(name, setFormValues, initialFormValues) {
   setFormValues(prevFormValues => ({ ...prevFormValues, [name]: value }))
 }
 
-export function clearInputErrors(name, setFormErrors) {
+export function clearInputErrors(input, setFormErrors) {
+  const name = typeof input === 'string' ? input : input.target.name
+
   setFormErrors(prevFormErrors => ({
     ...prevFormErrors,
     [name]: []
