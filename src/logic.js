@@ -58,16 +58,20 @@ export function validateInputValue(
   }
 
   if (!formValidations.hasOwnProperty(inputName)) {
-    return
+    return false
   }
 
-  setFormErrors(prevFormErrors => ({
-    ...prevFormErrors,
-    [inputName]: getInputValidationErrors(
+  const errors = getInputValidationErrors(
       inputValue,
       formValidations[inputName]
     )
+
+  setFormErrors(prevFormErrors => ({
+    ...prevFormErrors,
+    [inputName]: errors
   }))
+
+  return errors.length === 0
 }
 
 export function resetInputValue(name, setFormValues, initialFormValues) {

@@ -1,3 +1,9 @@
+# 4.3.0 (2019-08-24)
+
+## Features
+
+- `validateInputValue` has been extended to return a boolean.
+
 # 4.2.0 (2019-08-10)
 
 ## Features

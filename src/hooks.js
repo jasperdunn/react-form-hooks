@@ -55,7 +55,7 @@ export function useFormValues(initialFormValues) {
  * - formErrors - Object where each key is the input name and each value is an array of error messages (string/jsx).
  * - numberOfErrors - Number of inputs that have errors.
  * - validateForm - Function that runs validation on the whole form, returns formIsValid (boolean).
- * - validateInputValue(input) - Function that runs validation on an input.
+ * - validateInputValue(input, value?) - Function that runs validation on an input, returns inputIsValid (boolean).
  * - clearFormErrors - Function that clears the forms errors.
  * - clearInputErrors(input) - Function that clears the errors for an input via an event handler or passing the new value.
  * - setInputErrors(name, errors) - Function that sets the errors for an input.

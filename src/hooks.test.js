@@ -39,8 +39,10 @@ function TestInput({
     clearInputErrors,
     setInputErrors
   } = useFormErrors(formValidations)
+  const [inputIsValid, setInputIsValid] = useState(true)
   return (
     <>
+      <span data-testid="inputIsValid">{inputIsValid.toString()}</span>
       <InputText
         id="name"
         label="Name"
@@ -75,7 +77,9 @@ function TestInput({
       <button
         data-testid="validateInputValueButton"
         type="button"
-        onClick={() => validateInputValue('name', formValues.name)}
+        onClick={() => {
+          setInputIsValid(validateInputValue('name', formValues.name))
+        }}
       />
     </>
   )
@@ -162,9 +166,11 @@ describe('useFormErrors - input', () => {
 
     const errors = getByTestId(container, 'name-errors')
     const errorMessage = errors.childNodes[0].textContent
+    const inputIsValid = getByTestId(container, 'inputIsValid').textContent
 
     expect(errors.childNodes.length).toEqual(1)
     expect(errorMessage).toMatch('required')
+    expect(inputIsValid).toBe(String(false))
   })
 
   test('validateInputValue(event)', () => {
@@ -257,7 +263,7 @@ function TestForm({ initialFormValues, newFormValues }) {
     clearFormErrors
   } = useFormErrors({ name: [required], email: [required] })
 
-  const [formIsValid, setFormIsValid] = useState(false)
+  const [formIsValid, setFormIsValid] = useState(true)
 
   function validate() {
     setFormIsValid(validateForm(formValues))
