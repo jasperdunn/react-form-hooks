@@ -2,7 +2,7 @@ import React from 'react'
 import { string, func, arrayOf, shape } from 'prop-types'
 
 InputRadioGroup.propTypes = {
-  id: string.isRequired,
+  name: string.isRequired,
   label: string.isRequired,
   value: string,
   onChange: func.isRequired,
@@ -13,7 +13,7 @@ InputRadioGroup.propTypes = {
 }
 
 export default function InputRadioGroup({
-  id,
+  name,
   label,
   value,
   onChange,
@@ -27,10 +27,10 @@ export default function InputRadioGroup({
         {options.map(option => {
           return (
             <span key={option.value} style={{ marginRight: '6px' }}>
-              <label htmlFor={`${id}-${option.value}`}>{option.label}</label>
+              <label htmlFor={`${name}-${option.value}`}>{option.label}</label>
               <input
-                id={`${id}-${option.value}`}
-                name={id}
+                id={`${name}-${option.value}`}
+                name={name}
                 type="radio"
                 value={option.value}
                 checked={option.value === value}

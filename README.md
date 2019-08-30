@@ -56,7 +56,7 @@ return (
     >
       <h1>Form with hooks</h1>
       <InputText
-        id="email"
+        name="email"
         label="Email"
         type="email"
         value={formValues.email}
@@ -65,7 +65,7 @@ return (
         errors={formErrors.email}
       />
       <InputText
-        id="password"
+        name="password"
         label="Password"
         type="password"
         value={formValues.password}

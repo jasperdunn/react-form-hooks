@@ -1,3 +1,11 @@
+# 4.3.1 (2019-08-30)
+
+## Maintenance
+
+Updated documentation, example and test form fields to map directly to `name` rather than `id`. The fields were mapping `id` to both `id` and `name` props, I have since realised that this isn't a cool thing to do :P
+
+Just so that everyone is clear, this package maps formValues to `name` and not `id`! Apologies for any confusion.
+
 # 4.3.0 (2019-08-24)
 
 ## Features

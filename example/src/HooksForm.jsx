@@ -14,7 +14,6 @@ export default function HooksForm() {
   const {
     formValues,
     setInputValue,
-    updateInputValue,
     resetFormValues,
     resetInputValue
   } = useFormValues({
@@ -44,7 +43,7 @@ export default function HooksForm() {
   } = useFormErrors(formValidations)
 
   function updateAndValidateInput(event) {
-    updateInputValue(event)
+    setInputValue(event)
     validateInputValue(event)
   }
 
@@ -77,7 +76,7 @@ export default function HooksForm() {
         </small>
       )}
       <InputText
-        id="email"
+        name="email"
         label="Email - (validate on blur)"
         type="email"
         value={formValues.email}
@@ -86,24 +85,24 @@ export default function HooksForm() {
         errors={formErrors.email}
       />
       <InputText
-        id="password"
+        name="password"
         label="Password - (clear errors on blur)"
         type="password"
         value={formValues.password}
-        onChange={updateInputValue}
+        onChange={setInputValue}
         onBlur={clearInputErrors}
         errors={formErrors.password}
       />
       <InputText
-        id="confirmPassword"
+        name="confirmPassword"
         label="Confirm password"
         type="password"
         value={formValues.confirmPassword}
-        onChange={updateInputValue}
+        onChange={setInputValue}
         errors={formErrors.confirmPassword}
       />
       <InputRadioGroup
-        id="iLoveHooks"
+        name="iLoveHooks"
         label="I love hooks!"
         value={formValues.iLoveHooks}
         onChange={updateAndValidateInput}

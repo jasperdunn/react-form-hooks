@@ -44,7 +44,7 @@ function TestInput({
     <>
       <span data-testid="inputIsValid">{inputIsValid.toString()}</span>
       <InputText
-        id="name"
+        name="name"
         label="Name"
         type="text"
         value={formValues.name}
@@ -274,7 +274,7 @@ function TestForm({ initialFormValues, newFormValues }) {
       <span data-testid="numberOfErrors">{numberOfErrors}</span>
       <span data-testid="formIsValid">{formIsValid.toString()}</span>
       <InputText
-        id="name"
+        name="name"
         label="Name"
         type="text"
         value={formValues.name}
@@ -282,7 +282,7 @@ function TestForm({ initialFormValues, newFormValues }) {
         errors={formErrors.name}
       />
       <InputText
-        id="email"
+        name="email"
         label="Email"
         type="email"
         value={formValues.email}

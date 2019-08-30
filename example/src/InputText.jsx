@@ -2,7 +2,7 @@ import React from 'react'
 import { string, func, arrayOf } from 'prop-types'
 
 InputText.propTypes = {
-  id: string.isRequired,
+  name: string.isRequired,
   label: string.isRequired,
   type: string.isRequired,
   value: string,
@@ -12,7 +12,7 @@ InputText.propTypes = {
 }
 
 export default function InputText({
-  id,
+  name,
   label,
   type,
   value,
@@ -22,12 +22,12 @@ export default function InputText({
 }) {
   return (
     <div style={{ margin: '20px 0' }}>
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={name}>{label}</label>
       <br />
       <input
-        id={id}
-        data-testid={id}
-        name={id}
+        id={name}
+        data-testid={name}
+        name={name}
         type={type}
         value={value}
         onChange={onChange}
@@ -36,7 +36,7 @@ export default function InputText({
       <br />
       {errors && errors.length > 0 && (
         <ul
-          data-testid={`${id}-errors`}
+          data-testid={`${name}-errors`}
           style={{
             color: 'red',
             margin: '8px 0',
