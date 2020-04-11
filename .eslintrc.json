@@ -1,0 +1,44 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jest/recommended",
+    "plugin:jest/style",
+    "prettier",
+    "prettier/react"
+  ],
+  "env": {
+    "es6": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-shadow": "warn",
+    "no-bitwise": "warn",
+    "no-else-return": "warn",
+    "no-const-assign": "warn",
+    "no-lonely-if": "warn",
+    "prefer-arrow-callback": "warn",
+    "prefer-const": "warn",
+    "prefer-template": "warn",
+    "no-console": "warn",
+    "no-alert": "warn",
+    "react/no-unescaped-entities": "off",
+    "no-unexpected-multiline": "error"
+  },
+  "overrides": [
+    {
+      "parser": "@typescript-eslint/parser",
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "prettier/@typescript-eslint"
+      ],
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": ["error"]
+      }
+    }
+  ]
+}

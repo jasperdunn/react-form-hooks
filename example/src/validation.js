@@ -30,8 +30,8 @@ export function alphanumeric(value) {
   }
 }
 
-export function passwordsMatch(value1, value2) {
+export function equals(value1, value2, errorMessage) {
   if (value1 !== value2) {
-    return "Passwords don't match"
+    return errorMessage
   }
 }

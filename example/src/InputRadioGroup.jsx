@@ -1,5 +1,5 @@
 import React from 'react'
-import { string, func, arrayOf, shape } from 'prop-types'
+import { string, func, arrayOf, shape, node } from 'prop-types'
 
 InputRadioGroup.propTypes = {
   name: string.isRequired,
@@ -9,7 +9,7 @@ InputRadioGroup.propTypes = {
   options: arrayOf(
     shape({ label: string.isRequired, value: string.isRequired })
   ).isRequired,
-  errors: arrayOf(string)
+  error: node,
 }
 
 export default function InputRadioGroup({
@@ -18,13 +18,13 @@ export default function InputRadioGroup({
   value,
   onChange,
   options,
-  errors
+  error,
 }) {
   return (
     <div style={{ margin: '20px 0' }}>
       <div style={{ marginBottom: '6px' }}>{label}</div>
       <div style={{ marginLeft: '16px' }}>
-        {options.map(option => {
+        {options.map((option) => {
           return (
             <span key={option.value} style={{ marginRight: '6px' }}>
               <label htmlFor={`${name}-${option.value}`}>{option.label}</label>
@@ -40,19 +40,17 @@ export default function InputRadioGroup({
           )
         })}
       </div>
-      {errors && errors.length > 0 && (
-        <ul
+      {error && (
+        <div
           style={{
             color: 'red',
             margin: '8px 0',
             padding: 0,
-            listStyle: 'none'
+            listStyle: 'none',
           }}
         >
-          {errors.map((error, index) => (
-            <li key={index}>- {error}</li>
-          ))}
-        </ul>
+          {error}
+        </div>
       )}
     </div>
   )

@@ -1,5 +1,5 @@
 import React from 'react'
-import { string, func, arrayOf } from 'prop-types'
+import { string, func, node } from 'prop-types'
 
 InputText.propTypes = {
   name: string.isRequired,
@@ -8,7 +8,7 @@ InputText.propTypes = {
   value: string,
   onChange: func.isRequired,
   onBlur: func,
-  errors: arrayOf(string)
+  error: node,
 }
 
 export default function InputText({
@@ -18,7 +18,7 @@ export default function InputText({
   value,
   onChange,
   onBlur,
-  errors
+  error,
 }) {
   return (
     <div style={{ margin: '20px 0' }}>
@@ -33,21 +33,21 @@ export default function InputText({
         onChange={onChange}
         onBlur={onBlur}
       />
-      <br />
-      {errors && errors.length > 0 && (
-        <ul
-          data-testid={`${name}-errors`}
-          style={{
-            color: 'red',
-            margin: '8px 0',
-            padding: 0,
-            listStyle: 'none'
-          }}
-        >
-          {errors.map((error, index) => (
-            <li key={index}>- {error}</li>
-          ))}
-        </ul>
+      {error && (
+        <>
+          <br />
+          <div
+            data-testid={`${name}-error`}
+            style={{
+              color: 'red',
+              margin: '8px 0',
+              padding: 0,
+              listStyle: 'none',
+            }}
+          >
+            {error}
+          </div>
+        </>
       )}
     </div>
   )

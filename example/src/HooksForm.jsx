@@ -1,12 +1,6 @@
 import React from 'react'
 import { useFormValues, useFormErrors } from '@jasperdunn/react-form-hooks'
-import {
-  required,
-  email,
-  minLength,
-  alphanumeric,
-  passwordsMatch
-} from './validation'
+import { required, email, minLength, alphanumeric, equals } from './validation'
 import InputText from './InputText'
 import InputRadioGroup from './InputRadioGroup'
 
@@ -15,22 +9,22 @@ export default function HooksForm() {
     formValues,
     setInputValue,
     resetFormValues,
-    resetInputValue
+    resetInputValue,
   } = useFormValues({
     email: '',
     password: '',
     confirmPassword: '',
-    iLoveHooks: ''
+    iLoveHooks: '',
   })
 
   const formValidations = {
     email: [required, email],
-    password: [required, alphanumeric, value => minLength(value, 6)],
+    password: [required, alphanumeric, (value) => minLength(value, 6)],
     confirmPassword: [
       required,
-      value => passwordsMatch(value, formValues.password)
+      (value) => equals(value, formValues.password, "Passwords don't match"),
     ],
-    iLoveHooks: [required]
+    iLoveHooks: [required],
   }
 
   const {
@@ -39,7 +33,7 @@ export default function HooksForm() {
     validateForm,
     validateInputValue,
     clearFormErrors,
-    clearInputErrors
+    clearInputError,
   } = useFormErrors(formValidations)
 
   function updateAndValidateInput(event) {
@@ -82,7 +76,7 @@ export default function HooksForm() {
         value={formValues.email}
         onChange={setInputValue}
         onBlur={validateInputValue}
-        errors={formErrors.email}
+        error={formErrors.email}
       />
       <InputText
         name="password"
@@ -90,8 +84,8 @@ export default function HooksForm() {
         type="password"
         value={formValues.password}
         onChange={setInputValue}
-        onBlur={clearInputErrors}
-        errors={formErrors.password}
+        onBlur={clearInputError}
+        error={formErrors.password}
       />
       <InputText
         name="confirmPassword"
@@ -99,7 +93,7 @@ export default function HooksForm() {
         type="password"
         value={formValues.confirmPassword}
         onChange={setInputValue}
-        errors={formErrors.confirmPassword}
+        error={formErrors.confirmPassword}
       />
       <InputRadioGroup
         name="iLoveHooks"
@@ -108,9 +102,9 @@ export default function HooksForm() {
         onChange={updateAndValidateInput}
         options={[
           { label: 'Yes', value: 'yes' },
-          { label: 'Yes', value: 'alsoYes' }
+          { label: 'Yes', value: 'alsoYes' },
         ]}
-        errors={formErrors.iLoveHooks}
+        error={formErrors.iLoveHooks}
       />
       <button type="submit">Create some hooks!</button>
       <button type="button" onClick={resetForm}>
@@ -119,7 +113,7 @@ export default function HooksForm() {
       <button type="button" onClick={() => resetInputValue('email')}>
         Reset email
       </button>
-      <button type="button" onClick={() => clearInputErrors('email')}>
+      <button type="button" onClick={() => clearInputError('email')}>
         Clear email errors
       </button>
     </form>
