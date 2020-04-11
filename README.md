@@ -24,7 +24,7 @@ with whichever components we want, however we want!
 
 There are many excellent react form packages out there, however I hadn't yet found one that didn't end up pulling me in a certain direction or way of working.
 
-I wanted to be able to use simple, stateless, controlled components in my forms, utilising agnostic functions that didn't care which components I used or how they were structured.
+I wanted to be able to use simple, stateless, controlled components in my forms, utilizing agnostic functions that didn't care which components I used or how they were structured.
 
 ## What it looks like
 
@@ -62,7 +62,7 @@ return (
         value={formValues.email}
         onChange={setInputValue}
         onBlur={validateInputValue}
-        errors={formErrors.email}
+        error={formErrors.email}
       />
       <InputText
         name="password"
@@ -71,7 +71,7 @@ return (
         value={formValues.password}
         onChange={setInputValue}
         onBlur={validateInputValue}
-        errors={formErrors.password}
+        error={formErrors.password}
       />
       <button type="submit">Create some hooks!</button>
     </form>
@@ -96,7 +96,7 @@ Where
 - `formValues` - Object where each key is the input name and each value is the input value.
 - `resetFormValues` - Function that resets the form values to the initial state.
 - `resetInputValue(name)` - Function that resets the input value to it's initial state.
-- `setInputValue(input, value?)` - Function that updates an input value via an event handler or passing the new value.
+- `setInputValue(input, value?)` - Function that updates an input value via an event handler or passing the new value and the input's name.
 - `setFormValues(formValues)` - Function that updates the form values.
 
 ## useFormErrors
@@ -108,20 +108,20 @@ const {
   validateForm,
   validateInputValue,
   clearFormErrors,
-  clearInputErrors,
-  setInputErrors
+  clearInputError,
+  setInputError
 } = useFormErrors(formValidations)
 ```
 
 Where
 
-- `formErrors` - Object where each key is the form input name, and each value is an array of error messages (string/jsx).
+- `formErrors` - Object where each key is the form input name, and each value is an error message (string/jsx).
 - `numberOfErrors` - Number of inputs that have errors.
 - `validateForm` - Function that runs validation on the whole form, returns formIsValid (boolean).
 - `validateInputValue(input, value?)` - Function that runs validation on an input, returns inputIsValid (boolean).
 - `clearFormErrors` - Function that clears the form errors.
-- `clearInputErrors(input)` - Function that clears the errors for an input via an event handler or passing the new value.
-- `setInputErrors(name, errors)` - Function that sets the errors for an input.
+- `clearInputError(input)` - Function that clears the error for an input via an event handler or the input's name.
+- `setInputError(name, error)` - Function that sets the error for an input.
 
 ### formValidations
 

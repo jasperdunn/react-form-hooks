@@ -1,8 +1,25 @@
+# 5.0.0 (2020-04-11)
+
+## Maintenance
+
+Migration to TypeScript.
+Improved documentation.
+
+## Breaking changes
+
+Input errors are now a single `string | JSX.Element` rather than an array. This will be an improvement to the development experience.
+Nearly all implementations of input errors display a single error message rather than a list of several error messages.
+
+### To migrate from versions < 5.0.0
+All references to `setInputError` and `formErrors.inputName` should be modified to use `string | JSX.Element` instead of an array.
+
+If need to display multiple errors, you can simply combine the different validation functions into one, and return a custom message that way.
+
 # 4.3.1 (2019-08-30)
 
 ## Maintenance
 
-Updated documentation, example and test form fields to map directly to `name` rather than `id`. The fields were mapping `id` to both `id` and `name` props, I have since realised that this isn't a cool thing to do :P
+Updated documentation, example and test form fields to map directly to `name` rather than `id`. The fields were mapping `id` to both `id` and `name` props, I have since realized that this isn't a cool thing to do :P
 
 Just so that everyone is clear, this package maps formValues to `name` and not `id`! Apologies for any confusion.
 
@@ -52,7 +69,7 @@ had to be written like this to prevent errors
 <input error={formErrors.username && formErrors.username[0]}>
 ```
 
-Now, its initialised based on the `formValidations` object.
+Now, its initialized based on the `formValidations` object.
 
 ```js
 { username: [], password: [] }
@@ -70,7 +87,7 @@ e.g.
         color: 'red',
         margin: '8px 0',
         padding: 0,
-        listStyle: 'none'
+        listStyle: 'none',
       }}
     >
       {errors.map((error, index) => (
