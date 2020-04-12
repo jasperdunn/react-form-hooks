@@ -1,9 +1,16 @@
+# 5.0.1 (2020-04-12)
+
+## Maintenance
+
+- Removing unused code.
+- Improving tests.
+
 # 5.0.0 (2020-04-11)
 
 ## Maintenance
 
-Migration to TypeScript.
-Improved documentation.
+- Migration to TypeScript.
+- Improved documentation.
 
 ## Breaking changes
 
@@ -11,6 +18,7 @@ Input errors are now a single `string | JSX.Element` rather than an array. This 
 Nearly all implementations of input errors display a single error message rather than a list of several error messages.
 
 ### To migrate from versions < 5.0.0
+
 All references to `setInputError` and `formErrors.inputName` should be modified to use `string | JSX.Element` instead of an array.
 
 If need to display multiple errors, you can simply combine the different validation functions into one, and return a custom message that way.

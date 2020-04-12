@@ -145,9 +145,9 @@ describe('useFormErrors - input', () => {
   it('renders initially with no errors', () => {
     const { container } = render(<TestInput initialValue="" />)
 
-    const errors = queryByTestId(container, 'name-error')
+    const error = queryByTestId(container, 'name-error')
 
-    expect(errors).toBeNull()
+    expect(error).toBeNull()
   })
 
   test('validateInputValue(string)', () => {
@@ -161,12 +161,12 @@ describe('useFormErrors - input', () => {
     )
     fireEvent.click(validateInputValueButton)
 
-    const errors = getByTestId(container, 'name-error')
-    const errorMessage = errors.childNodes[0].textContent
+    const error = getByTestId(container, 'name-error')
+    const errorMessage = error.textContent
     const inputIsValid = getByTestId(container, 'inputIsValid').textContent
 
-    expect(errors.childNodes).toHaveLength(1)
-    expect(errorMessage).toMatch('required')
+    expect(error).toBeInTheDocument()
+    expect(errorMessage).toBe('This field is required.')
     expect(inputIsValid).toBe(String(false))
   })
 
@@ -178,11 +178,22 @@ describe('useFormErrors - input', () => {
     const inputTextName = getByTestId(container, 'name')
     fireEvent.blur(inputTextName)
 
-    const errors = getByTestId(container, 'name-error')
-    const errorMessage = errors.childNodes[0].textContent
+    const error = getByTestId(container, 'name-error')
+    const errorMessage = error.textContent
 
-    expect(errors.childNodes).toHaveLength(1)
-    expect(errorMessage).toMatch('required')
+    expect(error).toBeInTheDocument()
+    expect(errorMessage).toBe('This field is required.')
+  })
+
+  test('validateInputValue(event) - no validation functions', () => {
+    const { container } = render(<TestInput initialValue="" />)
+
+    const inputTextName = getByTestId(container, 'name')
+    fireEvent.blur(inputTextName)
+
+    const error = queryByTestId(container, 'name-error')
+
+    expect(error).not.toBeInTheDocument()
   })
 
   test('clearInputError(string)', () => {
@@ -199,9 +210,9 @@ describe('useFormErrors - input', () => {
     )
     fireEvent.click(clearInputErrorButton)
 
-    const errors = queryByTestId(container, 'name-error')
+    const error = queryByTestId(container, 'name-error')
 
-    expect(errors).toBeNull()
+    expect(error).not.toBeInTheDocument()
   })
 
   test('clearInputError(event)', () => {
@@ -219,9 +230,9 @@ describe('useFormErrors - input', () => {
     const inputTextName = getByTestId(container, 'name')
     fireEvent.blur(inputTextName)
 
-    const errors = queryByTestId(container, 'name-error')
+    const error = queryByTestId(container, 'name-error')
 
-    expect(errors).toBeNull()
+    expect(error).not.toBeInTheDocument()
   })
 
   test('setInputError', () => {
@@ -232,11 +243,11 @@ describe('useFormErrors - input', () => {
     const setInputErrorButton = getByTestId(container, 'setInputErrorButton')
     fireEvent.click(setInputErrorButton)
 
-    const errors = queryByTestId(container, 'name-error')
-    const errorMessage = errors.childNodes[0].textContent
+    const error = queryByTestId(container, 'name-error')
+    const errorMessage = error.textContent
 
-    expect(errors.childNodes).toHaveLength(1)
-    expect(errorMessage).toMatch('Whoops!')
+    expect(error).toBeInTheDocument()
+    expect(errorMessage).toBe('Whoops!')
   })
 
   test('setInputError - jsx', () => {
@@ -255,21 +266,21 @@ describe('useFormErrors - input', () => {
     const setInputErrorButton = getByTestId(container, 'setInputErrorButton')
     fireEvent.click(setInputErrorButton)
 
-    const errorContainer = queryByTestId(container, 'name-error')
-    const errorMessage = errorContainer.getElementsByTagName('span').item(0)
-      .childNodes[0].textContent
+    const error = queryByTestId(container, 'name-error')
+    const errorMessage = queryByTestId(error, 'inner-message').textContent
 
-    expect(errorContainer.childNodes).toHaveLength(1)
-    expect(errorMessage).toMatch('Whoops!')
+    expect(error).toBeInTheDocument()
+    expect(errorMessage).toBe('Whoops!')
   })
 })
 
 TestForm.propTypes = {
   initialFormValues: object.isRequired,
   newFormValues: object,
+  formValidations: object,
 }
 
-function TestForm({ initialFormValues, newFormValues }) {
+function TestForm({ initialFormValues, newFormValues, formValidations }) {
   const {
     formValues,
     resetFormValues,
@@ -282,7 +293,7 @@ function TestForm({ initialFormValues, newFormValues }) {
     numberOfErrors,
     validateForm,
     clearFormErrors,
-  } = useFormErrors({ name: [required], email: [required] })
+  } = useFormErrors(formValidations)
 
   const [formIsValid, setFormIsValid] = useState(true)
 
@@ -395,15 +406,35 @@ describe('useFormErrors - form', () => {
     const validateFormButton = getByTestId(container, 'validateFormButton')
     fireEvent.click(validateFormButton)
 
-    const nameErrors = getByTestId(container, 'name-error')
-    const emailErrors = getByTestId(container, 'email-error')
+    const nameError = getByTestId(container, 'name-error')
+    const emailError = getByTestId(container, 'email-error')
     const numberOfErrors = getByTestId(container, 'numberOfErrors').textContent
     const formIsValid = getByTestId(container, 'formIsValid').textContent
 
-    expect(nameErrors).not.toBeNull()
-    expect(emailErrors).not.toBeNull()
+    expect(nameError).toBeInTheDocument()
+    expect(emailError).toBeInTheDocument()
     expect(numberOfErrors).toBe(String(2))
     expect(formIsValid).toBe(String(false))
+  })
+
+  test('validateForm - with no validation functions', () => {
+    const { container } = render(
+      <TestForm initialFormValues={{ name: '', email: '' }} />
+    )
+
+    const validateFormButton = getByTestId(container, 'validateFormButton')
+    fireEvent.click(validateFormButton)
+
+    const nameError = queryByTestId(container, 'name-error')
+    const emailError = queryByTestId(container, 'email-error')
+    const numberOfErrors = queryByTestId(container, 'numberOfErrors')
+      .textContent
+    const formIsValid = queryByTestId(container, 'formIsValid').textContent
+
+    expect(nameError).not.toBeInTheDocument()
+    expect(emailError).not.toBeInTheDocument()
+    expect(numberOfErrors).toBe(String(0))
+    expect(formIsValid).toBe(String(true))
   })
 
   test('clearFormErrors', () => {
@@ -423,12 +454,12 @@ describe('useFormErrors - form', () => {
     )
     fireEvent.click(clearFormErrorsButton)
 
-    const nameErrors = queryByTestId(container, 'name-error')
-    const emailErrors = queryByTestId(container, 'email-error')
+    const nameError = queryByTestId(container, 'name-error')
+    const emailError = queryByTestId(container, 'email-error')
     const numberOfErrors = getByTestId(container, 'numberOfErrors').textContent
 
-    expect(nameErrors).toBeNull()
-    expect(emailErrors).toBeNull()
+    expect(nameError).not.toBeInTheDocument()
+    expect(emailError).not.toBeInTheDocument()
     expect(numberOfErrors).toBe(String(0))
   })
 })

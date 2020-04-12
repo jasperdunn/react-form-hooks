@@ -1,4 +1,4 @@
-import { useState, useMemo, ChangeEvent } from 'react'
+import { useState, useMemo, ChangeEvent, Dispatch, SetStateAction } from 'react'
 import {
   setInputValue,
   resetInputValue,
@@ -30,7 +30,7 @@ type FormValuesOutput = {
     input: string | ChangeEvent<HTMLInputElement>,
     value?: string | boolean
   ) => void
-  setFormValues: React.Dispatch<React.SetStateAction<object>>
+  setFormValues: Dispatch<SetStateAction<object>>
 }
 
 /**

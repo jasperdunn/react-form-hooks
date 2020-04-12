@@ -1,7 +1,7 @@
-import { ChangeEvent } from 'react'
+import { ChangeEvent, Dispatch } from 'react'
 
 export function setInputValue(
-  setFormValues: React.Dispatch<object>,
+  setFormValues: Dispatch<object>,
   input: string | ChangeEvent<HTMLInputElement>,
   value?: string | boolean
 ): void {
@@ -22,20 +22,6 @@ export function setInputValue(
   }))
 }
 
-export function updateInputValue(
-  event: ChangeEvent<HTMLInputElement>,
-  setFormValues: React.Dispatch<object>
-): void {
-  const target = event.target
-  const name = target.name
-  const value = target.type === 'checkbox' ? target.checked : target.value
-
-  setFormValues((prevFormValues: object) => ({
-    ...prevFormValues,
-    [name]: value,
-  }))
-}
-
 function getFirstInputValidationError(
   value: string | boolean | undefined,
   inputValidations: Array<
@@ -52,7 +38,7 @@ function getFirstInputValidationError(
 
 export function validateForm(
   formValues: object,
-  setFormErrors: React.Dispatch<object>,
+  setFormErrors: Dispatch<object>,
   formValidations: object
 ): boolean {
   const inputsToValidate = Object.keys(formValidations)
@@ -79,7 +65,7 @@ export function validateForm(
 }
 
 export function validateInputValue(
-  setFormErrors: React.Dispatch<object>,
+  setFormErrors: Dispatch<object>,
   formValidations: object,
   input: string | ChangeEvent<HTMLInputElement>,
   value?: string | boolean
@@ -113,7 +99,7 @@ export function validateInputValue(
 
 export function resetInputValue(
   name: string,
-  setFormValues: React.Dispatch<object>,
+  setFormValues: Dispatch<object>,
   initialFormValues: object
 ): void {
   const value = initialFormValues[name]
@@ -126,7 +112,7 @@ export function resetInputValue(
 
 export function clearInputError(
   input: string | ChangeEvent<HTMLInputElement>,
-  setFormErrors: React.Dispatch<object>
+  setFormErrors: Dispatch<object>
 ): void {
   const name = typeof input === 'string' ? input : input.target.name
 
