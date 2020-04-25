@@ -1,3 +1,9 @@
+# 5.1.0 (2020-04-25)
+
+## Features
+
+- Extend Change handlers to include `HTMLTextAreaElement` and `HTMLSelectElement`.
+
 # 5.0.5 (2020-04-25)
 
 ## DX (Developer Experience) improvements
