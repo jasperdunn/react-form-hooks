@@ -1,0 +1,7 @@
+example/
+src/
+.vscode/
+.eslintrc.json
+.travis.yml
+rollup.config.js
+tsconfig.json
