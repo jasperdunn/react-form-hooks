@@ -1,3 +1,9 @@
+# 5.1.1 (2020-04-25)
+
+## Bug fix
+
+- Update type reference for change handlers.
+
 # 5.1.0 (2020-04-25)
 
 ## Features
