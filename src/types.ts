@@ -14,7 +14,9 @@ export type FormErrorsOutput<F extends FormValues, E extends FormErrors> = {
   numberOfErrors: number
   isFormValid: (formValues: F) => boolean
   isInputValid: (
-    input: string | ChangeEvent<HTMLInputElement>,
+    input:
+      | string
+      | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     value?: InputValue
   ) => boolean
   /**
@@ -25,14 +27,20 @@ export type FormErrorsOutput<F extends FormValues, E extends FormErrors> = {
    * @deprecated `validateInputValue` has been renamed to `isInputValid`
    */
   validateInputValue: (
-    input: string | ChangeEvent<HTMLInputElement>,
+    input:
+      | string
+      | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     value?: InputValue
   ) => boolean
   clearFormErrors: () => void
   /**
    * Clears an input's error via an event handler or the input's name.
    */
-  clearInputError: (input: string | ChangeEvent<HTMLInputElement>) => void
+  clearInputError: (
+    input:
+      | string
+      | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => void
   setInputError: (name: string, error: InputError) => void
 }
 
@@ -50,7 +58,9 @@ export type FormValuesOutput<F extends FormValues> = {
    * Updates the specified input's value via an event handler or the inputs name and new value.
    */
   setInputValue: (
-    input: string | ChangeEvent<HTMLInputElement>,
+    input:
+      | string
+      | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     value?: InputValue
   ) => void
   setFormValues: Dispatch<SetStateAction<F>>
