@@ -1,3 +1,9 @@
+# 5.0.4 (2020-04-25)
+
+## Bug fix
+
+- Add .npmignore file so that the typescript files are included in the npm package when published.
+
 # 5.0.1 (2020-04-12)
 
 ## Maintenance
