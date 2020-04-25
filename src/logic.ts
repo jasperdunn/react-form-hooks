@@ -9,7 +9,9 @@ import {
 
 export function setInputValue<F>(
   setFormValues: Dispatch<SetStateAction<F>>,
-  input: string | ChangeEvent<HTMLInputElement>,
+  input:
+    | string
+    | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   value?: InputValue
 ): void {
   let name: string
@@ -20,7 +22,10 @@ export function setInputValue<F>(
   } else {
     const target = input.target
     name = target.name
-    updatedValue = target.type === 'checkbox' ? target.checked : target.value
+    updatedValue =
+      target.type === 'checkbox'
+        ? (target as HTMLInputElement).checked
+        : target.value
   }
 
   setFormValues((prevFormValues: F) => ({
@@ -75,7 +80,9 @@ export function isFormValid<F, E extends FormErrors>(
 export function isInputValid<E>(
   setFormErrors: Dispatch<SetStateAction<E>>,
   formValidations: FormValidations,
-  input: string | ChangeEvent<HTMLInputElement>,
+  input:
+    | string
+    | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   value?: InputValue
 ): boolean {
   let inputName: string
@@ -119,7 +126,9 @@ export function resetInputValue<F>(
 }
 
 export function clearInputError<F>(
-  input: string | ChangeEvent<HTMLInputElement>,
+  input:
+    | string
+    | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   setFormErrors: Dispatch<SetStateAction<F>>
 ): void {
   const name = typeof input === 'string' ? input : input.target.name

@@ -42,7 +42,11 @@ export function useFormValues<F extends FormValues>(
     resetInputValue: (name: string): void =>
       resetInputValue<F>(name, setFormValues, initialFormValues),
     setInputValue: (
-      input: string | ChangeEvent<HTMLInputElement>,
+      input:
+        | string
+        | ChangeEvent<
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+          >,
       value?: InputValue
     ): void => setInputValue<F>(setFormValues, input, value),
     setFormValues,
@@ -84,18 +88,31 @@ export function useFormErrors<F extends FormValues, E extends FormErrors>(
     isFormValid: (formValues: F): boolean =>
       isFormValid<F, E>(formValues, setFormErrors, formValidations),
     isInputValid: (
-      input: string | ChangeEvent<HTMLInputElement>,
+      input:
+        | string
+        | ChangeEvent<
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+          >,
       value?: InputValue
     ): boolean => isInputValid(setFormErrors, formValidations, input, value),
     validateForm: (formValues: F): boolean =>
       isFormValid<F, E>(formValues, setFormErrors, formValidations),
     validateInputValue: (
-      input: string | ChangeEvent<HTMLInputElement>,
+      input:
+        | string
+        | ChangeEvent<
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+          >,
       value?: InputValue
     ): boolean => isInputValid(setFormErrors, formValidations, input, value),
     clearFormErrors: (): void => setFormErrors(initialFormErrors),
-    clearInputError: (input: string | ChangeEvent<HTMLInputElement>): void =>
-      clearInputError(input, setFormErrors),
+    clearInputError: (
+      input:
+        | string
+        | ChangeEvent<
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+          >
+    ): void => clearInputError(input, setFormErrors),
     setInputError: (name: string, error: InputError): void =>
       setFormErrors((prevFormErrors: E) => ({
         ...prevFormErrors,
