@@ -6,10 +6,9 @@ import {
   fireEvent,
   queryByTestId,
 } from '@testing-library/react'
-import { useFormValues } from './index'
+import { useFormValues, useFormErrors } from './index'
 import InputText from '../example/src/InputText'
 import { required } from '../example/src/validation'
-import { useFormErrors } from './hooks'
 
 TestInput.propTypes = {
   initialValue: string.isRequired,
@@ -32,7 +31,7 @@ function TestInput({
   )
   const {
     formErrors,
-    validateInputValue,
+    isInputValid,
     clearInputError,
     setInputError,
   } = useFormErrors(formValidations)
@@ -46,9 +45,7 @@ function TestInput({
         type="text"
         value={formValues.name}
         onChange={setInputValue}
-        onBlur={
-          onBlurMethod === 'validate' ? validateInputValue : clearInputError
-        }
+        onBlur={onBlurMethod === 'validate' ? isInputValid : clearInputError}
         error={formErrors.name}
       />
       <button
@@ -75,7 +72,7 @@ function TestInput({
         data-testid="validateInputValueButton"
         type="button"
         onClick={() => {
-          setInputIsValid(validateInputValue('name', formValues.name))
+          setInputIsValid(isInputValid('name', formValues.name))
         }}
       />
     </>
@@ -150,7 +147,7 @@ describe('useFormErrors - input', () => {
     expect(error).toBeNull()
   })
 
-  test('validateInputValue(string)', () => {
+  test('isInputValid(string)', () => {
     const { container } = render(
       <TestInput initialValue="" formValidations={{ name: [required] }} />
     )
@@ -170,7 +167,7 @@ describe('useFormErrors - input', () => {
     expect(inputIsValid).toBe(String(false))
   })
 
-  test('validateInputValue(event)', () => {
+  test('isInputValid(event)', () => {
     const { container } = render(
       <TestInput initialValue="" formValidations={{ name: [required] }} />
     )
@@ -185,7 +182,7 @@ describe('useFormErrors - input', () => {
     expect(errorMessage).toBe('This field is required.')
   })
 
-  test('validateInputValue(event) - no validation functions', () => {
+  test('isInputValid(event) - no validation functions', () => {
     const { container } = render(<TestInput initialValue="" />)
 
     const inputTextName = getByTestId(container, 'name')
@@ -291,14 +288,14 @@ function TestForm({ initialFormValues, newFormValues, formValidations }) {
   const {
     formErrors,
     numberOfErrors,
-    validateForm,
+    isFormValid,
     clearFormErrors,
   } = useFormErrors(formValidations)
 
   const [formIsValid, setFormIsValid] = useState(true)
 
   function validate() {
-    setFormIsValid(validateForm(formValues))
+    setFormIsValid(isFormValid(formValues))
   }
 
   return (
@@ -395,7 +392,7 @@ describe('useFormValues - form', () => {
 })
 
 describe('useFormErrors - form', () => {
-  test('validateForm', () => {
+  test('isFormValid', () => {
     const { container } = render(
       <TestForm
         initialFormValues={{ name: '', email: '' }}
@@ -417,7 +414,7 @@ describe('useFormErrors - form', () => {
     expect(formIsValid).toBe(String(false))
   })
 
-  test('validateForm - with no validation functions', () => {
+  test('isFormValid - with no validation functions', () => {
     const { container } = render(
       <TestForm initialFormValues={{ name: '', email: '' }} />
     )

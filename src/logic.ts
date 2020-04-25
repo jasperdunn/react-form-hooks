@@ -1,9 +1,16 @@
-import { ChangeEvent, Dispatch } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction } from 'react'
+import {
+  InputValue,
+  InputError,
+  FormValidations,
+  InputValidation,
+  FormErrors,
+} from './types'
 
-export function setInputValue(
-  setFormValues: Dispatch<object>,
+export function setInputValue<F>(
+  setFormValues: Dispatch<SetStateAction<F>>,
   input: string | ChangeEvent<HTMLInputElement>,
-  value?: string | boolean
+  value?: InputValue
 ): void {
   let name: string
   let updatedValue = value
@@ -16,30 +23,30 @@ export function setInputValue(
     updatedValue = target.type === 'checkbox' ? target.checked : target.value
   }
 
-  setFormValues((prevFormValues: object) => ({
+  setFormValues((prevFormValues: F) => ({
     ...prevFormValues,
     [name]: updatedValue,
   }))
 }
 
 function getFirstInputValidationError(
-  value: string | boolean | undefined,
-  inputValidations: Array<
-    (value: string | boolean | undefined) => string | JSX.Element | undefined
-  >
-): string | JSX.Element | void {
+  value: InputValue,
+  inputValidations: Array<InputValidation>
+): InputError {
   for (let a = 0; a < inputValidations.length; a++) {
     const error = inputValidations[a](value)
     if (error) {
       return error
     }
   }
+
+  return undefined
 }
 
-export function validateForm(
-  formValues: object,
-  setFormErrors: Dispatch<object>,
-  formValidations: object
+export function isFormValid<F, E extends FormErrors>(
+  formValues: F,
+  setFormErrors: Dispatch<SetStateAction<E>>,
+  formValidations: FormValidations
 ): boolean {
   const inputsToValidate = Object.keys(formValidations)
   if (inputsToValidate.length === 0) {
@@ -56,19 +63,20 @@ export function validateForm(
     )
   }
 
-  setFormErrors(updatedFormErrors)
+  setFormErrors(updatedFormErrors as E)
 
   return (
-    Object.values<string>(updatedFormErrors).filter((value) => Boolean(value))
-      .length === 0
+    Object.values<InputError>(updatedFormErrors).filter((error: InputError) =>
+      Boolean(error)
+    ).length === 0
   )
 }
 
-export function validateInputValue(
-  setFormErrors: Dispatch<object>,
-  formValidations: object,
+export function isInputValid<E>(
+  setFormErrors: Dispatch<SetStateAction<E>>,
+  formValidations: FormValidations,
   input: string | ChangeEvent<HTMLInputElement>,
-  value?: string | boolean
+  value?: InputValue
 ): boolean {
   let inputName: string
   let inputValue = value
@@ -89,7 +97,7 @@ export function validateInputValue(
     formValidations[inputName]
   )
 
-  setFormErrors((prevFormErrors: object) => ({
+  setFormErrors((prevFormErrors: E) => ({
     ...prevFormErrors,
     [inputName]: error,
   }))
@@ -97,34 +105,34 @@ export function validateInputValue(
   return Boolean(error) === false
 }
 
-export function resetInputValue(
+export function resetInputValue<F>(
   name: string,
-  setFormValues: Dispatch<object>,
-  initialFormValues: object
+  setFormValues: Dispatch<SetStateAction<F>>,
+  initialFormValues: F
 ): void {
   const value = initialFormValues[name]
 
-  setFormValues((prevFormValues: object) => ({
+  setFormValues((prevFormValues: F) => ({
     ...prevFormValues,
     [name]: value,
   }))
 }
 
-export function clearInputError(
+export function clearInputError<F>(
   input: string | ChangeEvent<HTMLInputElement>,
-  setFormErrors: Dispatch<object>
+  setFormErrors: Dispatch<SetStateAction<F>>
 ): void {
   const name = typeof input === 'string' ? input : input.target.name
 
-  setFormErrors((prevFormErrors: object) => ({
+  setFormErrors((prevFormErrors: F) => ({
     ...prevFormErrors,
     [name]: undefined,
   }))
 }
 
-export function getInitialFormErrors(formValidations: object): {} {
+export function getInitialFormErrors<E>(formValidations: FormValidations): E {
   const formInputNames = Object.keys(formValidations)
-  const initialFormErrors = {}
+  const initialFormErrors = {} as E
 
   for (let a = 0; a < formInputNames.length; a++) {
     initialFormErrors[formInputNames[a]] = undefined

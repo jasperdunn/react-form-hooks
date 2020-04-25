@@ -1,3 +1,10 @@
+# 5.0.5 (2020-04-25)
+
+## DX (Developer Experience) improvements
+
+- Complete TypeScript typings overhaul.
+- Improved api naming - `validateForm` and `validateInputValue` deprecated and replaced with `isFormValid` and `isInputValid`.
+
 # 5.0.4 (2020-04-25)
 
 ## Bug fix
