@@ -39,16 +39,13 @@ export default function MyForm() {
     password: ''
   })
 
-  const formValidations = {
-    email: [required, email],
-    password: [required, alphanumeric, value => minLength(value, 6)],
-  }
-
   const {
     formErrors,
-    validateForm,
-    validateInputValue
-  } = useFormErrors(formValidations)
+    validateForm
+  } = useFormErrors({
+    email: [required, email],
+    password: [required, alphanumeric, value => minLength(value, 6)],
+  })
 
 return (
     <form
@@ -61,7 +58,6 @@ return (
         type="email"
         value={formValues.email}
         onChange={setInputValue}
-        onBlur={validateInputValue}
         error={formErrors.email}
       />
       <InputText
@@ -70,7 +66,6 @@ return (
         type="password"
         value={formValues.password}
         onChange={setInputValue}
-        onBlur={validateInputValue}
         error={formErrors.password}
       />
       <button type="submit">Create some hooks!</button>
