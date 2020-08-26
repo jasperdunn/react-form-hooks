@@ -5,6 +5,7 @@ import {
   FormValidations,
   InputValidation,
   FormErrors,
+  FormValues,
 } from './types'
 
 export function setInputValue<F>(
@@ -48,7 +49,7 @@ function getFirstInputValidationError(
   return undefined
 }
 
-export function isFormValid<F, E extends FormErrors>(
+export function isFormValid<F extends FormValues, E extends FormErrors>(
   formValues: F,
   setFormErrors: Dispatch<SetStateAction<E>>,
   formValidations: FormValidations
@@ -58,7 +59,7 @@ export function isFormValid<F, E extends FormErrors>(
     return true
   }
 
-  const updatedFormErrors = {}
+  const updatedFormErrors = {} as FormErrors
 
   for (let i = 0; i < inputsToValidate.length; i++) {
     const inputName = inputsToValidate[i]
@@ -112,7 +113,7 @@ export function isInputValid<E>(
   return Boolean(error) === false
 }
 
-export function resetInputValue<F>(
+export function resetInputValue<F extends FormValues>(
   name: string,
   setFormValues: Dispatch<SetStateAction<F>>,
   initialFormValues: F
@@ -139,13 +140,15 @@ export function clearInputError<F>(
   }))
 }
 
-export function getInitialFormErrors<E>(formValidations: FormValidations): E {
+export function getInitialFormErrors<E extends FormErrors>(
+  formValidations: FormValidations
+): E {
   const formInputNames = Object.keys(formValidations)
-  const initialFormErrors = {} as E
+  const initialFormErrors = {} as FormErrors
 
   for (let a = 0; a < formInputNames.length; a++) {
     initialFormErrors[formInputNames[a]] = undefined
   }
 
-  return initialFormErrors
+  return initialFormErrors as E
 }
