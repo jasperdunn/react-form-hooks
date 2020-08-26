@@ -1,3 +1,9 @@
+# 5.1.2 (2020-08-26)
+
+## Maintenance
+
+- Remove suppressImplicitAnyIndexErrors tsconfig rule.
+
 # 5.1.1 (2020-04-25)
 
 ## Bug fix
