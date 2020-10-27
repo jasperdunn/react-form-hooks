@@ -1,7 +1,14 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 
-export type InputValue = string | string[] | number | boolean | Date | undefined
-export type InputError = string | JSX.Element | undefined
+export type InputValue =
+  | string
+  | string[]
+  | number
+  | boolean
+  | Date
+  | null
+  | undefined
+export type InputError = string | JSX.Element | null | undefined
 
 export type FormValues = Record<string, InputValue>
 export type FormErrors = Record<string, InputError>
