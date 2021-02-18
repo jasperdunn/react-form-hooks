@@ -1,5 +1,4 @@
 example/
-src/
 .vscode/
 .eslintrc.json
 .travis.yml
