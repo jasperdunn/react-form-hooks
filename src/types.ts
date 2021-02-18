@@ -11,31 +11,41 @@ export type InputValue =
 export type InputError = string | JSX.Element | null | undefined
 
 export type FormValues = Record<string, InputValue>
-export type FormErrors = Record<string, InputError>
+export type FormErrors<E extends string> = Record<E, InputError>
 
-export type InputValidation = (value: InputValue) => InputError
-export type FormValidations = Record<string, InputValidation[]>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type InputValidation = (value: any) => InputError
+export type FormValidations<E extends string> = Record<E, InputValidation[]>
 
-export type FormErrorsOutput<F extends FormValues, E extends FormErrors> = {
-  formErrors: E
-  numberOfErrors: number
-  isFormValid: (formValues: F) => boolean
-  isInputValid: (
+export type FormValuesOutput<V extends FormValues> = {
+  formValues: V
+  /**
+   * Resets formValues to its initial state.
+   */
+  resetFormValues: () => void
+  /**
+   * Resets the specified input value to its initial state.
+   */
+  resetInputValue: (name: keyof V) => void
+  /**
+   * Updates the specified input's value via an event handler or the inputs name and new value.
+   */
+  setInputValue: (
     input:
-      | string
+      | keyof V
       | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     value?: InputValue
-  ) => boolean
-  /**
-   * @deprecated `validateForm` has been renamed to `isFormValid`
-   */
-  validateForm: (formValues: F) => boolean
-  /**
-   * @deprecated `validateInputValue` has been renamed to `isInputValid`
-   */
+  ) => void
+  setFormValues: Dispatch<SetStateAction<V>>
+}
+
+export type FormErrorsOutput<E extends string> = {
+  formErrors: FormErrors<E>
+  numberOfErrors: number
+  validateForm: (formValues: FormValues) => boolean
   validateInputValue: (
     input:
-      | string
+      | E
       | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     value?: InputValue
   ) => boolean
@@ -45,30 +55,8 @@ export type FormErrorsOutput<F extends FormValues, E extends FormErrors> = {
    */
   clearInputError: (
     input:
-      | string
+      | E
       | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => void
-  setInputError: (name: string, error: InputError) => void
-}
-
-export type FormValuesOutput<F extends FormValues> = {
-  formValues: F
-  /**
-   * Resets formValues to its initial state.
-   */
-  resetFormValues: () => void
-  /**
-   * Resets the specified input value to its initial state.
-   */
-  resetInputValue: (name: string) => void
-  /**
-   * Updates the specified input's value via an event handler or the inputs name and new value.
-   */
-  setInputValue: (
-    input:
-      | string
-      | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-    value?: InputValue
-  ) => void
-  setFormValues: Dispatch<SetStateAction<F>>
+  setInputError: (name: E, error: InputError) => void
 }

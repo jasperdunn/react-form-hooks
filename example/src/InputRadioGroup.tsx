@@ -1,25 +1,23 @@
 import React from 'react'
-import { string, func, arrayOf, shape, node } from 'prop-types'
+import { InputError } from '@jasperdunn/react-form-hooks'
 
-InputRadioGroup.propTypes = {
-  name: string.isRequired,
-  label: string.isRequired,
-  value: string,
-  onChange: func.isRequired,
-  options: arrayOf(
-    shape({ label: string.isRequired, value: string.isRequired })
-  ).isRequired,
-  error: node,
+type InputRadioGroupProps = {
+  name: string
+  label: string
+  value: string
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  options: { label: string; value: string }[]
+  error: InputError
 }
 
-export default function InputRadioGroup({
+export function InputRadioGroup({
   name,
   label,
   value,
   onChange,
   options,
   error,
-}) {
+}: InputRadioGroupProps): JSX.Element {
   return (
     <div style={{ margin: '20px 0' }}>
       <div style={{ marginBottom: '6px' }}>{label}</div>

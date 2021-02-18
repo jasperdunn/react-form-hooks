@@ -1,10 +1,10 @@
 import React from 'react'
 import { useFormValues, useFormErrors } from '@jasperdunn/react-form-hooks'
 import { required, email, minLength, alphanumeric, equals } from './validation'
-import InputText from './InputText'
-import InputRadioGroup from './InputRadioGroup'
+import { InputText } from './InputText'
+import { InputRadioGroup } from './InputRadioGroup'
 
-export default function HooksForm() {
+export function HooksForm(): JSX.Element {
   const {
     formValues,
     setInputValue,
@@ -17,16 +17,6 @@ export default function HooksForm() {
     iLoveHooks: '',
   })
 
-  const formValidations = {
-    email: [required, email],
-    password: [required, alphanumeric, (value) => minLength(value, 6)],
-    confirmPassword: [
-      required,
-      (value) => equals(value, formValues.password, "Passwords don't match"),
-    ],
-    iLoveHooks: [required],
-  }
-
   const {
     formErrors,
     numberOfErrors,
@@ -34,30 +24,40 @@ export default function HooksForm() {
     validateInputValue,
     clearFormErrors,
     clearInputError,
-  } = useFormErrors(formValidations)
+  } = useFormErrors({
+    email: [required, email],
+    password: [required, alphanumeric, (value: string) => minLength(value, 6)],
+    confirmPassword: [
+      required,
+      (value: string) =>
+        equals(value, formValues.password, "Passwords don't match"),
+    ],
+    iLoveHooks: [required],
+  })
 
-  function updateAndValidateInput(event) {
+  function updateAndValidateInput(
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void {
     setInputValue(event)
     validateInputValue(event)
   }
 
-  function resetForm() {
+  function resetForm(): void {
     resetFormValues()
     clearFormErrors()
   }
 
-  function submitForm(event) {
-    event.preventDefault()
-
-    const formIsValid = validateForm(formValues)
-    if (formIsValid) {
-      signIn()
-    }
-  }
-
-  function signIn() {
+  function signIn(): void {
     //eslint-disable-next-line
     alert('Validation successful!')
+  }
+
+  function submitForm(event: React.FormEvent<HTMLFormElement>): void {
+    event.preventDefault()
+
+    if (validateForm(formValues)) {
+      signIn()
+    }
   }
 
   return (

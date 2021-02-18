@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
-import { object, string, oneOf, node } from 'prop-types'
 import {
   render,
   getByTestId,
   fireEvent,
   queryByTestId,
 } from '@testing-library/react'
-import { useFormValues, useFormErrors } from './index'
-import InputText from '../example/src/InputText'
+import { useFormValues, useFormErrors, FormValidations } from './index'
+import { InputText } from '../example/src/InputText'
 import { required } from '../example/src/validation'
+import { InputError } from 'types'
 
-TestInput.propTypes = {
-  initialValue: string.isRequired,
-  newValue: string,
-  formValidations: object,
-  customErrorMessage: node,
-  onBlurMethod: oneOf(['validate', 'clear']),
+type TestInputProps = {
+  initialValue: string
+  newValue?: string
+  formValidations?: FormValidations<'name'>
+  customErrorMessage?: InputError
+  onBlurMethod?: 'validate' | 'clear'
 }
 
 function TestInput({
@@ -24,14 +24,14 @@ function TestInput({
   formValidations,
   customErrorMessage,
   onBlurMethod = 'validate',
-}) {
+}: TestInputProps): JSX.Element {
   const initialFormValues = { name: initialValue }
   const { formValues, resetInputValue, setInputValue } = useFormValues(
     initialFormValues
   )
   const {
     formErrors,
-    isInputValid,
+    validateInputValue,
     clearInputError,
     setInputError,
   } = useFormErrors(formValidations)
@@ -45,7 +45,9 @@ function TestInput({
         type="text"
         value={formValues.name}
         onChange={setInputValue}
-        onBlur={onBlurMethod === 'validate' ? isInputValid : clearInputError}
+        onBlur={
+          onBlurMethod === 'validate' ? validateInputValue : clearInputError
+        }
         error={formErrors.name}
       />
       <button
@@ -72,19 +74,22 @@ function TestInput({
         data-testid="validateInputValueButton"
         type="button"
         onClick={() => {
-          setInputIsValid(isInputValid('name', formValues.name))
+          setInputIsValid(validateInputValue('name', formValues.name))
         }}
       />
     </>
   )
 }
 
-describe('useFormValues - input', () => {
+describe('useFormHooks - input values', () => {
   it('renders with its initial form value', () => {
     const initialValue = ''
     const { container } = render(<TestInput initialValue={initialValue} />)
 
-    const inputTextName = getByTestId(container, 'name')
+    const inputTextName = getByTestId(
+      container as HTMLElement,
+      'name'
+    ) as HTMLInputElement
 
     expect(inputTextName.value).toBe(initialValue)
   })
@@ -92,7 +97,10 @@ describe('useFormValues - input', () => {
   test('setInputValue', () => {
     const { container } = render(<TestInput initialValue="" />)
 
-    const inputTextName = getByTestId(container, 'name')
+    const inputTextName = getByTestId(
+      container as HTMLElement,
+      'name'
+    ) as HTMLInputElement
     const newName = 'John Smith'
     fireEvent.change(inputTextName, { target: { value: newName } })
 
@@ -103,11 +111,14 @@ describe('useFormValues - input', () => {
     const initialValue = 'John Smith'
     const { container } = render(<TestInput initialValue={initialValue} />)
 
-    const inputTextName = getByTestId(container, 'name')
+    const inputTextName = getByTestId(
+      container as HTMLElement,
+      'name'
+    ) as HTMLInputElement
     const newName = 'Bob Brown'
     fireEvent.change(inputTextName, { target: { value: newName } })
 
-    const resetButton = getByTestId(container, 'resetButton')
+    const resetButton = getByTestId(container as HTMLElement, 'resetButton')
     fireEvent.click(resetButton)
 
     expect(inputTextName.value).toBe(initialValue)
@@ -119,9 +130,12 @@ describe('useFormValues - input', () => {
       <TestInput initialValue="John Smith" newValue={newValue} />
     )
 
-    const inputTextName = getByTestId(container, 'name')
+    const inputTextName = getByTestId(
+      container as HTMLElement,
+      'name'
+    ) as HTMLInputElement
 
-    const setButton = getByTestId(container, 'setButton')
+    const setButton = getByTestId(container as HTMLElement, 'setButton')
     fireEvent.click(setButton)
 
     expect(inputTextName.value).toBe(newValue)
@@ -130,7 +144,10 @@ describe('useFormValues - input', () => {
   test('setInputValue(event)', () => {
     const { container } = render(<TestInput initialValue="" />)
 
-    const inputTextName = getByTestId(container, 'name')
+    const inputTextName = getByTestId(
+      container as HTMLElement,
+      'name'
+    ) as HTMLInputElement
     const newName = 'John Smith'
     fireEvent.change(inputTextName, { target: { value: newName } })
 
@@ -138,11 +155,11 @@ describe('useFormValues - input', () => {
   })
 })
 
-describe('useFormErrors - input', () => {
+describe('useFormHooks - input errors', () => {
   it('renders initially with no errors', () => {
     const { container } = render(<TestInput initialValue="" />)
 
-    const error = queryByTestId(container, 'name-error')
+    const error = queryByTestId(container as HTMLElement, 'name-error')
 
     expect(error).toBeNull()
   })
@@ -153,14 +170,15 @@ describe('useFormErrors - input', () => {
     )
 
     const validateInputValueButton = getByTestId(
-      container,
+      container as HTMLElement,
       'validateInputValueButton'
     )
     fireEvent.click(validateInputValueButton)
 
-    const error = getByTestId(container, 'name-error')
+    const error = getByTestId(container as HTMLElement, 'name-error')
     const errorMessage = error.textContent
-    const inputIsValid = getByTestId(container, 'inputIsValid').textContent
+    const inputIsValid = getByTestId(container as HTMLElement, 'inputIsValid')
+      .textContent
 
     expect(error).toBeInTheDocument()
     expect(errorMessage).toBe('This field is required.')
@@ -172,10 +190,10 @@ describe('useFormErrors - input', () => {
       <TestInput initialValue="" formValidations={{ name: [required] }} />
     )
 
-    const inputTextName = getByTestId(container, 'name')
+    const inputTextName = getByTestId(container as HTMLElement, 'name')
     fireEvent.blur(inputTextName)
 
-    const error = getByTestId(container, 'name-error')
+    const error = getByTestId(container as HTMLElement, 'name-error')
     const errorMessage = error.textContent
 
     expect(error).toBeInTheDocument()
@@ -185,10 +203,10 @@ describe('useFormErrors - input', () => {
   test('isInputValid(event) - no validation functions', () => {
     const { container } = render(<TestInput initialValue="" />)
 
-    const inputTextName = getByTestId(container, 'name')
+    const inputTextName = getByTestId(container as HTMLElement, 'name')
     fireEvent.blur(inputTextName)
 
-    const error = queryByTestId(container, 'name-error')
+    const error = queryByTestId(container as HTMLElement, 'name-error')
 
     expect(error).not.toBeInTheDocument()
   })
@@ -198,16 +216,16 @@ describe('useFormErrors - input', () => {
       <TestInput initialValue="" formValidations={{ name: [required] }} />
     )
 
-    const inputTextName = getByTestId(container, 'name')
+    const inputTextName = getByTestId(container as HTMLElement, 'name')
     fireEvent.blur(inputTextName)
 
     const clearInputErrorButton = getByTestId(
-      container,
+      container as HTMLElement,
       'clearInputErrorButton'
     )
     fireEvent.click(clearInputErrorButton)
 
-    const error = queryByTestId(container, 'name-error')
+    const error = queryByTestId(container as HTMLElement, 'name-error')
 
     expect(error).not.toBeInTheDocument()
   })
@@ -221,13 +239,16 @@ describe('useFormErrors - input', () => {
       />
     )
 
-    const setInputErrorButton = getByTestId(container, 'setInputErrorButton')
+    const setInputErrorButton = getByTestId(
+      container as HTMLElement,
+      'setInputErrorButton'
+    )
     fireEvent.click(setInputErrorButton)
 
-    const inputTextName = getByTestId(container, 'name')
+    const inputTextName = getByTestId(container as HTMLElement, 'name')
     fireEvent.blur(inputTextName)
 
-    const error = queryByTestId(container, 'name-error')
+    const error = queryByTestId(container as HTMLElement, 'name-error')
 
     expect(error).not.toBeInTheDocument()
   })
@@ -237,11 +258,14 @@ describe('useFormErrors - input', () => {
       <TestInput initialValue="" customErrorMessage="Whoops!" />
     )
 
-    const setInputErrorButton = getByTestId(container, 'setInputErrorButton')
+    const setInputErrorButton = getByTestId(
+      container as HTMLElement,
+      'setInputErrorButton'
+    )
     fireEvent.click(setInputErrorButton)
 
-    const error = queryByTestId(container, 'name-error')
-    const errorMessage = error.textContent
+    const error = queryByTestId(container as HTMLElement, 'name-error')
+    const errorMessage = error?.textContent
 
     expect(error).toBeInTheDocument()
     expect(errorMessage).toBe('Whoops!')
@@ -260,42 +284,52 @@ describe('useFormErrors - input', () => {
       />
     )
 
-    const setInputErrorButton = getByTestId(container, 'setInputErrorButton')
+    const setInputErrorButton = getByTestId(
+      container as HTMLElement,
+      'setInputErrorButton'
+    )
     fireEvent.click(setInputErrorButton)
 
-    const error = queryByTestId(container, 'name-error')
-    const errorMessage = queryByTestId(error, 'inner-message').textContent
+    const error = queryByTestId(container as HTMLElement, 'name-error')
+    const errorMessage = queryByTestId(
+      container as HTMLElement,
+      'inner-message'
+    )?.textContent
 
     expect(error).toBeInTheDocument()
     expect(errorMessage).toBe('Whoops!')
   })
 })
 
-TestForm.propTypes = {
-  initialFormValues: object.isRequired,
-  newFormValues: object,
-  formValidations: object,
+type TestFormProps = {
+  initialFormValues: { name: string; email: string }
+  newFormValues?: { name: string; email: string }
+  formValidations?: FormValidations<'name' | 'email'>
 }
 
-function TestForm({ initialFormValues, newFormValues, formValidations }) {
+function TestForm({
+  initialFormValues,
+  newFormValues,
+  formValidations,
+}: TestFormProps): JSX.Element {
   const {
     formValues,
     resetFormValues,
     setInputValue,
     setFormValues,
-  } = useFormValues(initialFormValues)
+  } = useFormValues<{ name: string; email: string }>(initialFormValues)
 
   const {
     formErrors,
     numberOfErrors,
-    isFormValid,
+    validateForm,
     clearFormErrors,
-  } = useFormErrors(formValidations)
+  } = useFormErrors<'name' | 'email'>(formValidations)
 
   const [formIsValid, setFormIsValid] = useState(true)
 
-  function validate() {
-    setFormIsValid(isFormValid(formValues))
+  function validate(): void {
+    setFormIsValid(validateForm(formValues))
   }
 
   return (
@@ -328,8 +362,8 @@ function TestForm({ initialFormValues, newFormValues, formValidations }) {
         type="button"
         onClick={() =>
           setFormValues({
-            name: newFormValues.name,
-            email: newFormValues.email,
+            name: newFormValues?.name || '',
+            email: newFormValues?.email || '',
           })
         }
       />
@@ -347,7 +381,7 @@ function TestForm({ initialFormValues, newFormValues, formValidations }) {
   )
 }
 
-describe('useFormValues - form', () => {
+describe('useFormHooks - form values', () => {
   test('setFormValues', () => {
     const newFormValues = { name: 'Bob Brown', email: 'bob@email.com' }
 
@@ -358,9 +392,15 @@ describe('useFormValues - form', () => {
       />
     )
 
-    const inputTextName = getByTestId(container, 'name')
-    const inputTextEmail = getByTestId(container, 'email')
-    const setButton = getByTestId(container, 'setButton')
+    const inputTextName = getByTestId(
+      container as HTMLElement,
+      'name'
+    ) as HTMLInputElement
+    const inputTextEmail = getByTestId(
+      container as HTMLElement,
+      'email'
+    ) as HTMLInputElement
+    const setButton = getByTestId(container as HTMLElement, 'setButton')
 
     fireEvent.click(setButton)
 
@@ -378,10 +418,16 @@ describe('useFormValues - form', () => {
       />
     )
 
-    const inputTextName = getByTestId(container, 'name')
-    const inputTextEmail = getByTestId(container, 'email')
-    const setButton = getByTestId(container, 'setButton')
-    const resetButton = getByTestId(container, 'resetButton')
+    const inputTextName = getByTestId(
+      container as HTMLElement,
+      'name'
+    ) as HTMLInputElement
+    const inputTextEmail = getByTestId(
+      container as HTMLElement,
+      'email'
+    ) as HTMLInputElement
+    const setButton = getByTestId(container as HTMLElement, 'setButton')
+    const resetButton = getByTestId(container as HTMLElement, 'resetButton')
 
     fireEvent.click(setButton)
     fireEvent.click(resetButton)
@@ -391,7 +437,7 @@ describe('useFormValues - form', () => {
   })
 })
 
-describe('useFormErrors - form', () => {
+describe('useFormHooks - form errors', () => {
   test('isFormValid', () => {
     const { container } = render(
       <TestForm
@@ -400,13 +446,20 @@ describe('useFormErrors - form', () => {
       />
     )
 
-    const validateFormButton = getByTestId(container, 'validateFormButton')
+    const validateFormButton = getByTestId(
+      container as HTMLElement,
+      'validateFormButton'
+    )
     fireEvent.click(validateFormButton)
 
-    const nameError = getByTestId(container, 'name-error')
-    const emailError = getByTestId(container, 'email-error')
-    const numberOfErrors = getByTestId(container, 'numberOfErrors').textContent
-    const formIsValid = getByTestId(container, 'formIsValid').textContent
+    const nameError = getByTestId(container as HTMLElement, 'name-error')
+    const emailError = getByTestId(container as HTMLElement, 'email-error')
+    const numberOfErrors = getByTestId(
+      container as HTMLElement,
+      'numberOfErrors'
+    ).textContent
+    const formIsValid = getByTestId(container as HTMLElement, 'formIsValid')
+      .textContent
 
     expect(nameError).toBeInTheDocument()
     expect(emailError).toBeInTheDocument()
@@ -419,14 +472,20 @@ describe('useFormErrors - form', () => {
       <TestForm initialFormValues={{ name: '', email: '' }} />
     )
 
-    const validateFormButton = getByTestId(container, 'validateFormButton')
+    const validateFormButton = getByTestId(
+      container as HTMLElement,
+      'validateFormButton'
+    )
     fireEvent.click(validateFormButton)
 
-    const nameError = queryByTestId(container, 'name-error')
-    const emailError = queryByTestId(container, 'email-error')
-    const numberOfErrors = queryByTestId(container, 'numberOfErrors')
-      .textContent
-    const formIsValid = queryByTestId(container, 'formIsValid').textContent
+    const nameError = queryByTestId(container as HTMLElement, 'name-error')
+    const emailError = queryByTestId(container as HTMLElement, 'email-error')
+    const numberOfErrors = queryByTestId(
+      container as HTMLElement,
+      'numberOfErrors'
+    )?.textContent
+    const formIsValid = queryByTestId(container as HTMLElement, 'formIsValid')
+      ?.textContent
 
     expect(nameError).not.toBeInTheDocument()
     expect(emailError).not.toBeInTheDocument()
@@ -442,18 +501,24 @@ describe('useFormErrors - form', () => {
       />
     )
 
-    const validateFormButton = getByTestId(container, 'validateFormButton')
+    const validateFormButton = getByTestId(
+      container as HTMLElement,
+      'validateFormButton'
+    )
     fireEvent.click(validateFormButton)
 
     const clearFormErrorsButton = getByTestId(
-      container,
+      container as HTMLElement,
       'clearFormErrorsButton'
     )
     fireEvent.click(clearFormErrorsButton)
 
-    const nameError = queryByTestId(container, 'name-error')
-    const emailError = queryByTestId(container, 'email-error')
-    const numberOfErrors = getByTestId(container, 'numberOfErrors').textContent
+    const nameError = queryByTestId(container as HTMLElement, 'name-error')
+    const emailError = queryByTestId(container as HTMLElement, 'email-error')
+    const numberOfErrors = getByTestId(
+      container as HTMLElement,
+      'numberOfErrors'
+    ).textContent
 
     expect(nameError).not.toBeInTheDocument()
     expect(emailError).not.toBeInTheDocument()

@@ -1,17 +1,17 @@
 import React from 'react'
-import { string, func, node } from 'prop-types'
+import { InputError } from '@jasperdunn/react-form-hooks'
 
-InputText.propTypes = {
-  name: string.isRequired,
-  label: string.isRequired,
-  type: string.isRequired,
-  value: string,
-  onChange: func.isRequired,
-  onBlur: func,
-  error: node,
+type InputTextProps = {
+  name: string
+  label: string
+  type: string
+  value: string
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
+  error: InputError
 }
 
-export default function InputText({
+export function InputText({
   name,
   label,
   type,
@@ -19,7 +19,7 @@ export default function InputText({
   onChange,
   onBlur,
   error,
-}) {
+}: InputTextProps): JSX.Element {
   return (
     <div style={{ margin: '20px 0' }}>
       <label htmlFor={name}>{label}</label>

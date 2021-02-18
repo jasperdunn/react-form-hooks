@@ -1,2 +1,9 @@
-export { useFormErrors, useFormValues } from './hooks'
-export * from './types'
+export { useFormValues, useFormErrors } from './hooks'
+export type {
+  FormErrors,
+  InputError,
+  FormValidations,
+  FormValues,
+  InputValidation,
+  InputValue,
+} from './types'

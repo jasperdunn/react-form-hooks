@@ -1,66 +1,36 @@
-import { useState, useMemo, ChangeEvent } from 'react'
+import { useState, ChangeEvent } from 'react'
 import {
   setInputValue,
   resetInputValue,
   clearInputError,
-  isFormValid,
-  isInputValid,
-  getInitialFormErrors,
+  validateForm,
+  validateInputValue,
 } from './logic'
 import {
   InputError,
-  FormValuesOutput,
-  FormErrorsOutput,
   FormValidations,
   InputValue,
   FormValues,
   FormErrors,
+  FormValuesOutput,
+  FormErrorsOutput,
 } from './types'
 
 /**
- * Use this hook to manage your form values.
+ * Use this hook to manage your form data.
  *
  * ```ts
  * const {
  *   formValues,
- *   setInputValue
- * } = useFormValues({
+ *   setInputValue,
+ *   formErrors,
+ *   isFormValid,
+ * } = useFormHooks({
  *   email: '',
  *   password: '',
  *   confirmPassword: ''
- * })
- * ```
- */
-export function useFormValues<F extends FormValues>(
-  initialFormValues: F
-): FormValuesOutput<F> {
-  const [formValues, setFormValues] = useState<F>(initialFormValues)
-
-  return {
-    formValues,
-    resetFormValues: (): void => setFormValues(initialFormValues),
-    resetInputValue: (name: string): void =>
-      resetInputValue<F>(name, setFormValues, initialFormValues),
-    setInputValue: (
-      input:
-        | string
-        | ChangeEvent<
-            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-          >,
-      value?: InputValue
-    ): void => setInputValue<F>(setFormValues, input, value),
-    setFormValues,
-  }
-}
-
-/**
- * Use this hook with `useFormValues` to manage your form errors.
- *
- * ```ts
- * const {
- *  formErrors,
- *  isFormValid,
- * } = useFormErrors({
+ * },
+ * {
  *  email: [required, email],
  *  password: [required, alphanumeric, (value) => minLength(value, 6)],
  *  confirmPassword: [
@@ -70,51 +40,61 @@ export function useFormValues<F extends FormValues>(
  * })
  * ```
  */
-export function useFormErrors<F extends FormValues, E extends FormErrors>(
-  formValidations: FormValidations = {}
-): FormErrorsOutput<F, E> {
-  const initialFormErrors = useMemo<E>(
-    () => getInitialFormErrors(formValidations),
-    [formValidations]
-  )
+export function useFormValues<V extends FormValues>(
+  initialFormValues: V
+): FormValuesOutput<V> {
+  const [formValues, setFormValues] = useState<V>(initialFormValues)
 
-  const [formErrors, setFormErrors] = useState<E>(initialFormErrors)
+  return {
+    formValues,
+    resetFormValues: (): void => setFormValues(initialFormValues),
+    resetInputValue: (name: keyof V): void =>
+      resetInputValue<V>(name, setFormValues, initialFormValues),
+    setInputValue: (
+      input:
+        | keyof V
+        | ChangeEvent<
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+          >,
+      value?: InputValue
+    ): void => setInputValue<V>(setFormValues, input, value),
+    setFormValues,
+  }
+}
+
+export function useFormErrors<E extends string>(
+  formValidations?: FormValidations<E>
+): FormErrorsOutput<E> {
+  const [formErrors, setFormErrors] = useState<FormErrors<E>>(
+    {} as Record<E, InputError>
+  )
 
   return {
     formErrors,
     numberOfErrors: Object.values<InputError>(
       formErrors
     ).filter((error: InputError) => Boolean(error)).length,
-    isFormValid: (formValues: F): boolean =>
-      isFormValid<F, E>(formValues, setFormErrors, formValidations),
-    isInputValid: (
-      input:
-        | string
-        | ChangeEvent<
-            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-          >,
-      value?: InputValue
-    ): boolean => isInputValid(setFormErrors, formValidations, input, value),
-    validateForm: (formValues: F): boolean =>
-      isFormValid<F, E>(formValues, setFormErrors, formValidations),
+    validateForm: (formValues: FormValues): boolean =>
+      validateForm<E>(formValues, setFormErrors, formValidations),
     validateInputValue: (
       input:
-        | string
+        | E
         | ChangeEvent<
             HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
           >,
       value?: InputValue
-    ): boolean => isInputValid(setFormErrors, formValidations, input, value),
-    clearFormErrors: (): void => setFormErrors(initialFormErrors),
+    ): boolean =>
+      validateInputValue(setFormErrors, input, formValidations, value),
+    clearFormErrors: (): void => setFormErrors({} as Record<E, InputError>),
     clearInputError: (
       input:
-        | string
+        | E
         | ChangeEvent<
             HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
           >
     ): void => clearInputError(input, setFormErrors),
-    setInputError: (name: string, error: InputError): void =>
-      setFormErrors((prevFormErrors: E) => ({
+    setInputError: (name: E, error: InputError): void =>
+      setFormErrors((prevFormErrors: FormErrors<E>) => ({
         ...prevFormErrors,
         [name]: error,
       })),

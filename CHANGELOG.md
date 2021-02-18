@@ -1,3 +1,29 @@
+# 6.0.0 (2021-02-18)
+
+## Breaking changes
+
+- Reverted `isFormValid` and `isInputValid` function names to `validateForm` and `validateInputValue`.
+
+- useFormErrors Type arguments have changed from
+
+```
+useFormErrors<F extends FormValues, E extends FormErrors>
+```
+
+to
+
+```
+useFormErrors<E extends string>
+```
+
+## DX (Developer Experience) improvements
+
+- Complete TypeScript typings overhaul, now both `formValues` and `formErrors` objects have autocompletion intellisense, and functions have autocomplete for input field names.
+
+## Maintenance
+
+- Removed a redundant code "optimization".
+
 # 5.1.3 (2020-10-27)
 
 ## Features

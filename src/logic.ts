@@ -8,10 +8,10 @@ import {
   FormValues,
 } from './types'
 
-export function setInputValue<F>(
-  setFormValues: Dispatch<SetStateAction<F>>,
+export function setInputValue<V extends FormValues>(
+  setFormValues: Dispatch<SetStateAction<V>>,
   input:
-    | string
+    | keyof V
     | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   value?: InputValue
 ): void {
@@ -21,7 +21,9 @@ export function setInputValue<F>(
   if (typeof input === 'string') {
     name = input
   } else {
-    const target = input.target
+    const target = (input as ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >).target
     name = target.name
     updatedValue =
       target.type === 'checkbox'
@@ -29,7 +31,7 @@ export function setInputValue<F>(
         : target.value
   }
 
-  setFormValues((prevFormValues: F) => ({
+  setFormValues((prevFormValues: V) => ({
     ...prevFormValues,
     [name]: updatedValue,
   }))
@@ -49,27 +51,31 @@ function getFirstInputValidationError(
   return undefined
 }
 
-export function isFormValid<F extends FormValues, E extends FormErrors>(
-  formValues: F,
-  setFormErrors: Dispatch<SetStateAction<E>>,
-  formValidations: FormValidations
+export function validateForm<E extends string>(
+  formValues: FormValues,
+  setFormErrors: Dispatch<SetStateAction<FormErrors<E>>>,
+  formValidations?: FormValidations<E>
 ): boolean {
+  if (!formValidations) {
+    return true
+  }
+
   const inputsToValidate = Object.keys(formValidations)
   if (inputsToValidate.length === 0) {
     return true
   }
 
-  const updatedFormErrors = {} as FormErrors
+  const updatedFormErrors = {} as Record<string, InputError>
 
   for (let i = 0; i < inputsToValidate.length; i++) {
     const inputName = inputsToValidate[i]
     updatedFormErrors[inputName] = getFirstInputValidationError(
       formValues[inputName],
-      formValidations[inputName]
+      (formValidations as Record<string, InputValidation[]>)[inputName]
     )
   }
 
-  setFormErrors(updatedFormErrors as E)
+  setFormErrors(updatedFormErrors)
 
   return (
     Object.values<InputError>(updatedFormErrors).filter((error: InputError) =>
@@ -78,14 +84,18 @@ export function isFormValid<F extends FormValues, E extends FormErrors>(
   )
 }
 
-export function isInputValid<E>(
-  setFormErrors: Dispatch<SetStateAction<E>>,
-  formValidations: FormValidations,
+export function validateInputValue<E extends string>(
+  setFormErrors: Dispatch<SetStateAction<FormErrors<E>>>,
   input:
-    | string
+    | E
     | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  formValidations?: FormValidations<E>,
   value?: InputValue
 ): boolean {
+  if (!formValidations) {
+    return true
+  }
+
   let inputName: string
   let inputValue = value
 
@@ -102,10 +112,10 @@ export function isInputValid<E>(
 
   const error = getFirstInputValidationError(
     inputValue,
-    formValidations[inputName]
+    (formValidations as Record<string, InputValidation[]>)[inputName]
   )
 
-  setFormErrors((prevFormErrors: E) => ({
+  setFormErrors((prevFormErrors: FormErrors<E>) => ({
     ...prevFormErrors,
     [inputName]: error,
   }))
@@ -113,42 +123,29 @@ export function isInputValid<E>(
   return Boolean(error) === false
 }
 
-export function resetInputValue<F extends FormValues>(
-  name: string,
-  setFormValues: Dispatch<SetStateAction<F>>,
-  initialFormValues: F
+export function resetInputValue<V extends FormValues>(
+  name: keyof V,
+  setFormValues: Dispatch<SetStateAction<V>>,
+  initialFormValues: V
 ): void {
   const value = initialFormValues[name]
 
-  setFormValues((prevFormValues: F) => ({
+  setFormValues((prevFormValues: V) => ({
     ...prevFormValues,
     [name]: value,
   }))
 }
 
-export function clearInputError<F>(
+export function clearInputError<E extends string>(
   input:
-    | string
+    | E
     | ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  setFormErrors: Dispatch<SetStateAction<F>>
+  setFormErrors: Dispatch<SetStateAction<FormErrors<E>>>
 ): void {
   const name = typeof input === 'string' ? input : input.target.name
 
-  setFormErrors((prevFormErrors: F) => ({
+  setFormErrors((prevFormErrors: FormErrors<E>) => ({
     ...prevFormErrors,
     [name]: undefined,
   }))
-}
-
-export function getInitialFormErrors<E extends FormErrors>(
-  formValidations: FormValidations
-): E {
-  const formInputNames = Object.keys(formValidations)
-  const initialFormErrors = {} as FormErrors
-
-  for (let a = 0; a < formInputNames.length; a++) {
-    initialFormErrors[formInputNames[a]] = undefined
-  }
-
-  return initialFormErrors as E
 }
