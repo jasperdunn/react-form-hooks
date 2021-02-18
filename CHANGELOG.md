@@ -1,3 +1,9 @@
+# 6.0.1 (2021-02-18)
+
+## Maintenance
+
+- Fixed the missing type definitions from dist.
+
 # 6.0.0 (2021-02-18)
 
 ## Breaking changes
