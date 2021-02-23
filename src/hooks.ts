@@ -17,29 +17,20 @@ import {
 } from './types'
 
 /**
- * Use this hook to manage your form data.
+ * Use this hook to manage your form values.
  *
  * ```ts
  * const {
  *   formValues,
- *   setInputValue,
- *   formErrors,
- *   isFormValid,
- * } = useFormHooks({
+ *   setInputValue
+ * } = useFormValues({
  *   email: '',
  *   password: '',
  *   confirmPassword: ''
- * },
- * {
- *  email: [required, email],
- *  password: [required, alphanumeric, (value) => minLength(value, 6)],
- *  confirmPassword: [
- *    required,
- *    (value) => passwordsMatch(value, formValues.password),
- *  ],
  * })
  * ```
  */
+
 export function useFormValues<V extends FormValues>(
   initialFormValues: V
 ): FormValuesOutput<V> {
