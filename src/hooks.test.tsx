@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   render,
   getByTestId,
@@ -26,15 +26,10 @@ function TestInput({
   onBlurMethod = 'validate',
 }: TestInputProps): JSX.Element {
   const initialFormValues = { name: initialValue }
-  const { formValues, resetInputValue, setInputValue } = useFormValues(
-    initialFormValues
-  )
-  const {
-    formErrors,
-    validateInputValue,
-    clearInputError,
-    setInputError,
-  } = useFormErrors(formValidations)
+  const { formValues, resetInputValue, setInputValue } =
+    useFormValues(initialFormValues)
+  const { formErrors, validateInputValue, clearInputError, setInputError } =
+    useFormErrors(formValidations)
   const [inputIsValid, setInputIsValid] = useState(true)
   return (
     <>
@@ -177,8 +172,10 @@ describe('useFormHooks - input errors', () => {
 
     const error = getByTestId(container as HTMLElement, 'name-error')
     const errorMessage = error.textContent
-    const inputIsValid = getByTestId(container as HTMLElement, 'inputIsValid')
-      .textContent
+    const inputIsValid = getByTestId(
+      container as HTMLElement,
+      'inputIsValid'
+    ).textContent
 
     expect(error).toBeInTheDocument()
     expect(errorMessage).toBe('This field is required.')
@@ -312,19 +309,11 @@ function TestForm({
   newFormValues,
   formValidations,
 }: TestFormProps): JSX.Element {
-  const {
-    formValues,
-    resetFormValues,
-    setInputValue,
-    setFormValues,
-  } = useFormValues<{ name: string; email: string }>(initialFormValues)
+  const { formValues, resetFormValues, setInputValue, setFormValues } =
+    useFormValues<{ name: string; email: string }>(initialFormValues)
 
-  const {
-    formErrors,
-    numberOfErrors,
-    validateForm,
-    clearFormErrors,
-  } = useFormErrors<'name' | 'email'>(formValidations)
+  const { formErrors, numberOfErrors, validateForm, clearFormErrors } =
+    useFormErrors<'name' | 'email'>(formValidations)
 
   const [formIsValid, setFormIsValid] = useState(true)
 
@@ -458,8 +447,10 @@ describe('useFormHooks - form errors', () => {
       container as HTMLElement,
       'numberOfErrors'
     ).textContent
-    const formIsValid = getByTestId(container as HTMLElement, 'formIsValid')
-      .textContent
+    const formIsValid = getByTestId(
+      container as HTMLElement,
+      'formIsValid'
+    ).textContent
 
     expect(nameError).toBeInTheDocument()
     expect(emailError).toBeInTheDocument()
@@ -484,8 +475,10 @@ describe('useFormHooks - form errors', () => {
       container as HTMLElement,
       'numberOfErrors'
     )?.textContent
-    const formIsValid = queryByTestId(container as HTMLElement, 'formIsValid')
-      ?.textContent
+    const formIsValid = queryByTestId(
+      container as HTMLElement,
+      'formIsValid'
+    )?.textContent
 
     expect(nameError).not.toBeInTheDocument()
     expect(emailError).not.toBeInTheDocument()

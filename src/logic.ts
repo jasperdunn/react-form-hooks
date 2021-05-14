@@ -21,9 +21,11 @@ export function setInputValue<V extends FormValues>(
   if (typeof input === 'string') {
     name = input
   } else {
-    const target = (input as ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >).target
+    const target = (
+      input as ChangeEvent<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >
+    ).target
     name = target.name
     updatedValue =
       target.type === 'checkbox'
@@ -65,10 +67,10 @@ export function validateForm<E extends string>(
     return true
   }
 
-  const updatedFormErrors = {} as Record<string, InputError>
+  const updatedFormErrors = {} as FormErrors<E>
 
   for (let i = 0; i < inputsToValidate.length; i++) {
-    const inputName = inputsToValidate[i]
+    const inputName = inputsToValidate[i] as E
     updatedFormErrors[inputName] = getFirstInputValidationError(
       formValues[inputName],
       (formValidations as Record<string, InputValidation[]>)[inputName]

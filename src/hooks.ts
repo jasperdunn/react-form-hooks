@@ -62,9 +62,9 @@ export function useFormErrors<E extends string>(
 
   return {
     formErrors,
-    numberOfErrors: Object.values<InputError>(
-      formErrors
-    ).filter((error: InputError) => Boolean(error)).length,
+    numberOfErrors: Object.values<InputError>(formErrors).filter(
+      (error: InputError) => Boolean(error)
+    ).length,
     validateForm: (formValues: FormValues): boolean =>
       validateForm<E>(formValues, setFormErrors, formValidations),
     validateInputValue: (

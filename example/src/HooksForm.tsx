@@ -5,17 +5,13 @@ import { InputText } from './InputText'
 import { InputRadioGroup } from './InputRadioGroup'
 
 export function HooksForm(): JSX.Element {
-  const {
-    formValues,
-    setInputValue,
-    resetFormValues,
-    resetInputValue,
-  } = useFormValues({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    iLoveHooks: '',
-  })
+  const { formValues, setInputValue, resetFormValues, resetInputValue } =
+    useFormValues({
+      email: '',
+      password: '',
+      confirmPassword: '',
+      iLoveHooks: '',
+    })
 
   const {
     formErrors,

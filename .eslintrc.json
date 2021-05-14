@@ -4,8 +4,7 @@
     "plugin:react/recommended",
     "plugin:jest/recommended",
     "plugin:jest/style",
-    "prettier",
-    "prettier/react"
+    "prettier"
   ],
   "env": {
     "es6": true,
@@ -36,10 +35,7 @@
   "overrides": [
     {
       "parser": "@typescript-eslint/parser",
-      "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint"
-      ],
+      "extends": ["plugin:@typescript-eslint/recommended"],
       "files": ["*.ts", "*.tsx"],
       "rules": {
         "@typescript-eslint/explicit-function-return-type": [
