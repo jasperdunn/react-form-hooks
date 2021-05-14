@@ -1,3 +1,9 @@
+# 6.0.3 (2021-05-15)
+
+## Maintenance
+
+- Upgraded packages
+
 # 6.0.1 (2021-02-18)
 
 ## Maintenance

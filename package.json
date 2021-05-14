@@ -1,7 +1,7 @@
 {
   "name": "@jasperdunn/react-form-hooks",
   "homepage": "https://jasperdunn.github.io/react-form-hooks/",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "description": "Flexible agnostic functions to help you build forms in React",
   "author": "jasperdunn",
   "keywords": [
