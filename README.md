@@ -1,3 +1,7 @@
+# !! 💀 This package is deprecated. Use at your own risk. !!
+There are some amazing libraries out there now for forms, I highly recommend you check out [react-hook-form](https://www.react-hook-form.com)!
+Also take a look at [HTMX](https://htmx.org), I imagine we're going to be moving away from a lot of unnecessary UI state management in the future 🚀!
+
 # React Form Hooks
 
 ## Flexible agnostic functions to help you build forms in React
